@@ -1,0 +1,30 @@
+<app-navbar></app-navbar>
+<ul *ngIf="roommateRequests.length > 0; else noRequests" class="request-list">
+    <li *ngFor="let request of roommateRequests" class="request-card">
+        <div class="request-content">
+            <div class="avatar-and-info requester-info">
+                <img [src]="request.requester_avatar" alt="Requester Avatar" class="avatar">
+                <div>
+                    <div class="name">{{ request.requester_firstname }} {{ request.requester_lastname }}</div>
+                </div>
+            </div>
+            <div class="accepted-status" [ngClass]="{
+        'pending': request.accepted === null,
+        'accepted': request.accepted === true,
+        'declined': request.accepted === false
+      }">
+                {{ request.accepted === null ? 'Pending' : (request.accepted ? 'Accepted' : 'Declined') }}
+            </div>
+            <div class="avatar-and-info target-info">
+                <div>
+                    <div class="name">{{ request.target_firstname }} {{ request.target_lastname }}</div>
+                </div>
+                <img [src]="request.target_avatar" alt="Target Avatar" class="avatar">
+            </div>
+
+        </div>
+    </li>
+</ul>
+<ng-template #noRequests>
+    <p class="no-requests">No roommate requests found.</p>
+</ng-template>

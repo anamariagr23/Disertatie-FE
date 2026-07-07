@@ -1,0 +1,41 @@
+<app-navbar></app-navbar>
+<div class="student-cards" *ngIf="!isLoading; else loading">
+    <mat-card *ngFor="let student of students" class="student-card" (click)="goToProfile(student.id)">
+        <mat-card-header class=" wrapper">
+            <div mat-card-avatar class="student-avatar" *ngIf="student.avatar_link">
+                <img [src]="student.avatar_link" referrerpolicy="no-referrer">
+            </div>
+            <div class="student-info">
+                <mat-card-title class="title">{{ student.firstname }} {{ student.lastname }}</mat-card-title>
+                <mat-card-subtitle class="subtitle">{{ student.major }}, {{ getOrdinalSuffix(student.year_of_study)
+                    }} year</mat-card-subtitle>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <span class="normal-bold-text">Average score</span>
+            <div class="bar-container">
+                <div class="bar" [style.width.%]="student.total_score * 100"
+                    [style.background]="getColorForPercentage(student.total_score)"></div>
+                <span class="bar-label">{{ (student.total_score * 100) | number:'1.0-0' }}%</span>
+            </div>
+            <p class="normal-text">{{ student.description }}</p>
+            <div *ngIf="student.categories && student.categories.length" class="categories-wrapper">
+                <div *ngFor="let category of getTopCategories(student.categories)" class="category-item">
+                    <span>{{ category.category }}</span>
+                    <div class="bar-container">
+                        <div class="bar" [style.width.%]="category.score * 100"
+                            [style.background]="getColorForPercentage(category.score)"></div>
+                        <span class="bar-label">{{ (category.score * 100) | number:'1.0-0' }}%</span>
+                    </div>
+                </div>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+</div>
+<ng-template #loading>
+    <div class="loading-container">
+        <mat-spinner></mat-spinner>
+        <p>Loading...</p>
+    </div>
+</ng-template>

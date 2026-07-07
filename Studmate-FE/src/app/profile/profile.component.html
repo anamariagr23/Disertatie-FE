@@ -1,0 +1,57 @@
+<app-navbar></app-navbar>
+<div class="container" *ngIf="!isLoading; else loading">
+    <div class="left-section">
+        <div mat-card-avatar class="student-avatar" *ngIf="student?.avatar_link">
+            <img [src]="student.avatar_link" referrerpolicy="no-referrer">
+        </div>
+        <div class="student-info">
+            <mat-card-title class="title">{{ student?.firstname }} {{ student?.lastname }}</mat-card-title>
+            <mat-card-subtitle class="subtitle">Informatică, {{ getOrdinalSuffix(student?.year_of_study) }}
+                year</mat-card-subtitle>
+        </div>
+        <p class="normal-text ">
+            {{ student?.description }}
+        </p>
+    </div>
+    <div class="right-section">
+        <div class="top-section">
+            <div *ngIf="loggedInUserId !== studentId">
+                <span class="normal-bold-text">Average score</span>
+                <div class="bar-container" *ngIf="compatibilityScore !== undefined">
+                    <div class="bar" [style.width.%]="compatibilityScore * 100"
+                        [style.background]="getColorForPercentage(compatibilityScore)"></div>
+                    <span class="bar-label">{{ (compatibilityScore * 100) | number:'1.0-0' }}%</span>
+                </div>
+                <button mat-stroked-button class="roommate-button" (click)="sendRoommateRequest()"
+                    [disabled]="requestMade">
+                    <mat-icon>people</mat-icon>Request to Be Roommates
+                </button>
+            </div>
+            <div *ngIf="loggedInUserId === studentId">
+                <button mat-stroked-button class="roommate-button" (click)="updateAnswers()">
+                    <mat-icon>list</mat-icon>Update Answers
+                </button>
+            </div>
+        </div>
+        <div *ngIf="categories && categories.length" class="categories-wrapper">
+            <div *ngFor="let category of categories" class="category-item">
+                <div class="category-container">
+                    <span class="category">{{ category.category }}</span>
+                    <span class="percentage-label" *ngIf="loggedInUserId !== studentId">{{ (category.score * 100) |
+                        number:'1.0-0' }}%</span>
+                </div>
+                <div *ngIf="loggedInUserId !== studentId" class="progress-bar">
+                    <div class="progress" [style.width.%]="category.score * 100"
+                        [style.background]="getColorForPercentage(category.score)"></div>
+                </div>
+                <p>{{category.answer}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #loading>
+    <div class="loading-container">
+        <mat-spinner></mat-spinner>
+        <p>Loading...</p>
+    </div>
+</ng-template>

@@ -1,0 +1,26 @@
+<nav class="navbar">
+    <div class="navbar-left">
+        <img src="../../../assets/images/logo.png" alt="Studmate Logo">
+        <span *ngIf="idRole === 3; else nonClickableTitle" class="title" (click)="navigateToUsers()">Studmate</span>
+        <ng-template #nonClickableTitle>
+            <span class="title">Studmate</span>
+        </ng-template>
+    </div>
+    <div class="navbar-right">
+        <!-- <div *ngIf="idRole === 3"> -->
+        <button *ngIf="idRole === 3" mat-icon-button (click)="navigateToRoomateRequests()">
+            <mat-icon>group</mat-icon>
+        </button>
+        <div *ngIf="notificationCount > 0 && idRole === 3" class="notification-bubble">{{ notificationCount }}</div>
+        <button mat-icon-button *ngIf="idRole === 3" (click)="openDrawer()">
+            <mat-icon>message</mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="idRole === 3" (click)="navigateToPersonalProfile()">
+            <mat-icon>account_circle</mat-icon>
+        </button>
+        <!-- </div> -->
+        <button mat-icon-button (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+        </button>
+    </div>
+</nav>

@@ -1,0 +1,101 @@
+@import '../../shared/scss/shared-styles.scss';
+
+.student-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.student-card {
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 20px;
+    background-color: white;
+}
+
+.mat-card-header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background-color: #f5f5f5;
+    padding-left: 24px;
+}
+
+
+
+.student-avatar img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+
+.mat-card-content {
+    padding: 16px;
+    padding-left: 24px;
+    color: #333;
+    text-align: left;
+}
+
+.mat-card-actions {
+    padding: 16px;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #f5f5f5;
+    padding-left: 24px;
+}
+
+.mat-card-actions button {
+    margin-left: 8px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+
+}
+
+.category-item {
+    margin-bottom: 10px;
+}
+
+.categories-wrapper {
+    margin-bottom: 20px;
+}
+
+
+.sidenav-container {
+    height: 100%;
+}
+
+.drawer {
+    width: 500px;
+}
+
+
+.status-bubble {
+    position: absolute;
+    right: 45px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-left: 8px;
+}
+
+.online {
+    background-color: rgb(7, 238, 7);
+}
+
+.offline {
+    background-color: grey;
+}

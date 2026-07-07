@@ -1,0 +1,26 @@
+<app-navbar></app-navbar>
+<ul *ngIf="roommateRequests.length > 0; else noRequests" class="request-list">
+    <li *ngFor="let request of roommateRequests" class="request-card"
+        [ngClass]="{'grayed-out': request.requester_status_id === 2 && !request.accepted}">
+        <div class="request-content">
+            <div class="avatar-and-info">
+                <img [src]="request.requester_avatar" alt="Requester Avatar" class="avatar">
+                <div>
+                    <div class="name">{{ request.requester_firstname }} {{ request.requester_lastname }}</div>
+                    <div class="status">{{ request.requester_status_id === 1 ? 'Not Matched' : 'Matched' }}</div>
+                    <div class="status">{{ request.viewed === false ? 'Not Seen' : 'Seen' }}</div>
+                </div>
+            </div>
+            <div class="actions">
+                <button *ngIf="!request.accepted" mat-raised-button color="primary"
+                    (click)="acceptRequest(request.request_id)">Accept</button>
+                <button *ngIf="!request.accepted" mat-raised-button color="warn">Decline</button>
+
+                <button *ngIf="request.accepted === true" mat-raised-button class="accepted-button">Accepted</button>
+            </div>
+        </div>
+    </li>
+</ul>
+<ng-template #noRequests>
+    <p class="no-requests">No roommate requests found.</p>
+</ng-template>

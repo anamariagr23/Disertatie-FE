@@ -1,0 +1,19 @@
+<div class="login-container">
+  <h2>Login</h2>
+  <div id="g_id_onload" data-client_id="676203278903-vpp4otb0bmettevls0eh5trurjshi5u2.apps.googleusercontent.com"
+    data-context="signin" data-ux_mode="popup" data-callback="handleOauthResponse" data-itp_support="true">
+  </div>
+
+  <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="signin_with"
+    data-size="large" data-logo_alignment="center">
+  </div>
+  <form (ngSubmit)="login()" class="login-form">
+    <label for="email">Email:</label>
+    <input type="email" [(ngModel)]="email" name="email" id="email" class="login-input" required>
+
+    <label for="password">Password:</label>
+    <input type="password" [(ngModel)]="password" name="password" id="password" class="login-input" required>
+
+    <button type="submit" class="login-button">Login</button>
+  </form>
+</div>

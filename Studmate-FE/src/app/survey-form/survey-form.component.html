@@ -1,0 +1,14 @@
+<form [formGroup]="surveyForm">
+  <div formArrayName="questions">
+    <div *ngFor="let question of questions.controls; let i=index" [formGroupName]="i.toString()">
+      <label>{{surveyData.questions[i].description}}</label>
+      <div *ngFor="let choice of surveyData.questions[i].choices; let j=index">
+        <input *ngIf="surveyData.questions[i].multiple_choice" type="checkbox" [formControlName]="j.toString()">
+        <input *ngIf="!surveyData.questions[i].multiple_choice" type="radio" [formControlName]="j.toString()"
+          [name]="'question-' + i">
+        {{choice.description}}
+      </div>
+    </div>
+  </div>
+  <button type="submit">Submit</button>
+</form>

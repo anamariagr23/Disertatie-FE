@@ -1,0 +1,153 @@
+@import '../../shared/scss/shared-styles.scss';
+
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    max-width: 1500px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.left-section {
+    flex: 30%;
+    padding: 20px;
+}
+
+.right-section {
+    flex: 70%;
+    padding: 20px;
+}
+
+.top-section {
+    margin-bottom: 20px;
+}
+
+.bottom-section .category {
+    margin-bottom: 10px;
+}
+
+.profile-picture {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.description {
+    font-size: 14px;
+    color: #333;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 5px 0;
+}
+
+.progress {
+    height: 10px;
+}
+
+.roommate-button {
+    display: inline-block;
+    margin: 10px 5px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #1f5999;
+    color: white !important;
+    cursor: pointer;
+    text-align: center;
+}
+
+.student-avatar img {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    margin: auto;
+    display: block;
+    padding-right: 0;
+
+}
+
+.student-avatar {
+    margin: 0;
+}
+
+.student-info {
+    align-items: center;
+}
+
+
+.category-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.category {
+    text-align: left;
+    // color: #4c8cc4;
+    font-size: 16px;
+    font-weight: 420;
+}
+
+.percentage-label {
+    text-align: right;
+    color: #020202;
+}
+
+.category-item {
+    background-color: #ffffff;
+    border-radius: 8px;
+
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.blue-button {
+    background-color: #4c8cc4 !important;
+    color: #fff !important;
+}
+
+.roommate-button[disabled] {
+    color: rgba(0, 0, 0, 0.38);
+    background-color: rgba(0, 0, 0, 0.12);
+    border-color: rgba(0, 0, 0, 0.12);
+    cursor: not-allowed;
+}
+
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+@media (max-width: 768px) {
+
+    .left-section,
+    .right-section {
+        flex: 100%;
+    }
+
+    .student-avatar img {
+        width: 200px;
+        height: 200px;
+
+    }
+
+
+
+}

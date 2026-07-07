@@ -1,0 +1,35 @@
+<!-- <app-navbar></app-navbar>
+<div class="form-container">
+
+    <form (ngSubmit)="onSubmit()" #adminForm="ngForm">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" [(ngModel)]="adminEmail" required class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="dorm">Dorm:</label>
+            <select id="dorm" name="dorm" [(ngModel)]="selectedDormId" required class="form-control">
+                <option *ngFor="let dorm of dorms" [value]="dorm.id">{{ dorm.name }}</option>
+            </select>
+        </div>
+        <button type="submit">Create Dorm Admin</button>
+    </form>
+</div> -->
+
+<app-navbar></app-navbar>
+<div class="form-container">
+
+    <form (ngSubmit)="onSubmit()" #adminForm="ngForm">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" [(ngModel)]="adminEmail" required class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="dorm">Dorm:</label>
+            <select id="dorm" name="dorm" [(ngModel)]="selectedDormId" required class="form-control">
+                <option *ngFor="let dorm of dorms" [value]="dorm.id">{{ dorm.name }}</option>
+            </select>
+        </div>
+        <button type="submit">Create Dorm Admin</button>
+    </form>
+</div>

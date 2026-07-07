@@ -1,0 +1,21 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+    <mat-sidenav #drawer mode="side" position="end" class="drawer" [disableClose]="true">
+        <div class="header" [ngClass]="{'single-button': !showChat}">
+            <button mat-icon-button *ngIf="showChat" (click)="goBack()" class="back-button">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <button mat-icon-button (click)="drawerService.closeDrawer()" class="close-button">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <div *ngIf="showChat">
+            <app-chat [userId]="selectedUserId" (back)="goBack()"></app-chat>
+        </div>
+        <div *ngIf="!showChat">
+            <app-message-drawer (openChat)="openChat($event)"></app-message-drawer>
+        </div>
+    </mat-sidenav>
+</mat-sidenav-container>

@@ -1,0 +1,292 @@
+<app-navbar></app-navbar>
+<div class="form-container">
+    <div class="form-header">
+        Student Registration
+    </div>
+    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()" class="student-form">
+
+        <div class="form-row">
+            <div class="form-group">
+                <p>Select the dormitory where you will live.</p>
+                <mat-form-field appearance="fill" class="custom-mat-form-field">
+                    <mat-label>Dorm</mat-label>
+                    <mat-select formControlName="dorm">
+                        <mat-option *ngFor="let dorm of dorms" [value]="dorm.id">{{ dorm.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="form-group">
+                <p>Choose your major from the list.</p>
+                <mat-form-field appearance="fill" class="custom-mat-form-field">
+                    <mat-label>Major</mat-label>
+                    <mat-select formControlName="major">
+                        <mat-option *ngFor="let major of majors" [value]="major.id">{{ major.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <p>Select your sex as registered in official documents.</p>
+                <mat-form-field appearance="fill" class="custom-mat-form-field">
+                    <mat-label>Sex</mat-label>
+                    <mat-select formControlName="sex">
+                        <mat-option *ngFor="let sex of sexes" [value]="sex.id">{{ sex.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="form-group">
+                <p>Choose your current year of study.</p>
+                <mat-form-field appearance="fill" class="custom-mat-form-field">
+                    <mat-label>Year of Study</mat-label>
+                    <mat-select formControlName="yearOfStudy">
+                        <mat-option *ngFor="let year of yearsOfStudy" [value]="year">{{ year }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+        </div>
+
+
+
+
+
+        <div class="form-group">
+            <p>Provide a brief bio about yourself.</p>
+            <mat-form-field appearance="fill" class="custom-mat-form-field">
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="description"></textarea>
+            </mat-form-field>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <div class="label-wrapper">
+                    <p>Describe your cleanliness habits (e.g., frequency of cleaning room).</p>
+                </div>
+                <div class="field-wrapper">
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Cleanliness Habits</mat-label>
+                        <textarea matInput formControlName="cleanlinessHabits"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Importance</mat-label>
+                        <mat-select formControlName="cleanlinessHabitsImportance">
+                            <mat-option [value]="null">Empty</mat-option>
+                            <mat-option
+                                *ngFor="let importance of getAvailableScores(studentForm.get('cleanlinessHabitsImportance')?.value)"
+                                [value]="importance">{{ importance }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label-wrapper">
+                    <p>Specify your typical sleeping hours (e.g., 10 PM to 6 AM) and how these hours can vary
+                        (e.g., during weekends, exams, etc.).</p>
+                </div>
+                <div class="field-wrapper">
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Sleeping Patterns</mat-label>
+                        <textarea matInput formControlName="sleepingPatterns"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Importance</mat-label>
+                        <mat-select formControlName="sleepingPatternsImportance">
+                            <mat-option [value]="null">Empty</mat-option>
+                            <mat-option
+                                *ngFor="let importance of getAvailableScores(studentForm.get('sleepingPatternsImportance')?.value)"
+                                [value]="importance">{{ importance }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <div class="label-wrapper">
+                    <p>Describe your tolerance level for noise (e.g., low, moderate, high) and the types of
+                        noises you are making (e.g., music, TV, etc.).</p>
+                </div>
+                <div class="field-wrapper">
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Noise Tolerance</mat-label>
+                        <textarea matInput formControlName="noiseTolerance"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Importance</mat-label>
+                        <mat-select formControlName="noiseToleranceImportance">
+                            <mat-option [value]="null">Empty</mat-option>
+                            <mat-option
+                                *ngFor="let importance of getAvailableScores(studentForm.get('noiseToleranceImportance')?.value)"
+                                [value]="importance">{{ importance }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label-wrapper">
+                    <p>Describe your willingness to share personal belongings (e.g., clothes, books).</p>
+                </div>
+                <div class="field-wrapper">
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Personal Belongings Sharing</mat-label>
+                        <textarea matInput formControlName="belongingsSharing"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Importance</mat-label>
+                        <mat-select formControlName="belongingsSharingImportance">
+                            <mat-option [value]="null">Empty</mat-option>
+                            <mat-option
+                                *ngFor="let importance of getAvailableScores(studentForm.get('belongingsSharingImportance')?.value)"
+                                [value]="importance">{{ importance }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <div class="label-wrapper">
+                    <p>Describe your policy on guests (e.g., are overnight guests allowed?).</p>
+                </div>
+                <div class="field-wrapper">
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Guest Policy</mat-label>
+                        <textarea matInput formControlName="guestPolicy"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Importance</mat-label>
+                        <mat-select formControlName="guestPolicyImportance">
+                            <mat-option [value]="null">Empty</mat-option>
+                            <mat-option
+                                *ngFor="let importance of getAvailableScores(studentForm.get('guestPolicyImportance')?.value)"
+                                [value]="importance">{{ importance }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label-wrapper">
+                    <p>Describe your approach to sharing responsibilities (e.g., cleaning, cooking).</p>
+                </div>
+                <div class="field-wrapper">
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Sharing Responsibilities</mat-label>
+                        <textarea matInput formControlName="sharingResponsibilities"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Importance</mat-label>
+                        <mat-select formControlName="sharingResponsibilitiesImportance">
+                            <mat-option [value]="null">Empty</mat-option>
+                            <mat-option
+                                *ngFor="let importance of getAvailableScores(studentForm.get('sharingResponsibilitiesImportance')?.value)"
+                                [value]="importance">{{ importance }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <div class="label-wrapper">
+                    <p>Describe your willingness to share household items (e.g., kitchen appliances, tools).</p>
+                </div>
+                <div class="field-wrapper">
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Household Items Sharing</mat-label>
+                        <textarea matInput formControlName="itemsSharing"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Importance</mat-label>
+                        <mat-select formControlName="itemsSharingImportance">
+                            <mat-option [value]="null">Empty</mat-option>
+                            <mat-option
+                                *ngFor="let importance of getAvailableScores(studentForm.get('itemsSharingImportance')?.value)"
+                                [value]="importance">{{ importance }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label-wrapper">
+                    <p>Specify your temperature preferences for living spaces (e.g., warm, cool).</p>
+                </div>
+                <div class="field-wrapper">
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Temperature Preferences</mat-label>
+                        <textarea matInput formControlName="temperaturePreferences"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Importance</mat-label>
+                        <mat-select formControlName="temperaturePreferencesImportance">
+                            <mat-option [value]="null">Empty</mat-option>
+                            <mat-option
+                                *ngFor="let importance of getAvailableScores(studentForm.get('temperaturePreferencesImportance')?.value)"
+                                [value]="importance">{{ importance }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <div class="label-wrapper">
+                    <p>List and describe your hobbies and interests.</p>
+                </div>
+                <div class="field-wrapper">
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Hobbies</mat-label>
+                        <textarea matInput formControlName="hobbies"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Importance</mat-label>
+                        <mat-select formControlName="hobbiesImportance">
+                            <mat-option [value]="null">Empty</mat-option>
+                            <mat-option
+                                *ngFor="let importance of getAvailableScores(studentForm.get('hobbiesImportance')?.value)"
+                                [value]="importance">{{ importance }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label-wrapper">
+                    <p>Describe your personal values and beliefs.</p>
+                </div>
+                <div class="field-wrapper">
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Personal Values and Beliefs</mat-label>
+                        <textarea matInput formControlName="personalValues"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="custom-mat-form-field">
+                        <mat-label>Importance</mat-label>
+                        <mat-select formControlName="personalValuesImportance">
+                            <mat-option [value]="null">Empty</mat-option>
+                            <mat-option
+                                *ngFor="let importance of getAvailableScores(studentForm.get('personalValuesImportance')?.value)"
+                                [value]="importance">{{ importance }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <button mat-raised-button color="primary" type="submit" class="submit-button">Submit</button>
+    </form>
+</div>

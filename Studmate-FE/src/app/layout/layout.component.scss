@@ -1,0 +1,66 @@
+:host {
+    display: block;
+    --mat-sidenav-content-background-color: #eaf4f7;
+}
+
+
+.sidenav-container {
+    height: 100vh;
+}
+
+.drawer {
+    width: 500px;
+    padding: 16px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    justify-content: space-between;
+}
+
+.header.single-button {
+    justify-content: flex-end;
+}
+
+.close-button,
+.back-button {
+    background-color: white;
+}
+
+.close-button {
+    margin-left: auto;
+}
+
+@media (max-width: 768px) {
+    .drawer {
+        width: 100%;
+    }
+
+    .header {
+        padding: 10px;
+    }
+
+    .close-button,
+    .back-button {
+        padding: 8px;
+        min-width: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .drawer {
+        padding: 8px;
+    }
+
+    .header {
+        padding: 8px 5px;
+    }
+
+    .close-button,
+    .back-button {
+        padding: 6px;
+        font-size: 0.8em;
+    }
+}

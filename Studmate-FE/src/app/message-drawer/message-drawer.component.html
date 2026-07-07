@@ -1,0 +1,21 @@
+<div *ngIf="!selectedUserId">
+    <div *ngFor="let conversation of conversations" (click)="selectConversation(conversation.id)">
+        <mat-card-header class="wrapper">
+            <div mat-card-avatar class="student-avatar" *ngIf="conversation.avatar_link">
+                <img [src]="conversation.avatar_link" referrerpolicy="no-referrer">
+            </div>
+            <div class="student-info">
+                <mat-card-title class="title">{{ conversation.firstname }} {{ conversation.lastname }}</mat-card-title>
+                <mat-card-subtitle class="last-message">
+                    {{ conversation.last_message?.value }} <span class="message-time">{{
+                        conversation.last_message?.sent_at | date: 'shortTime' }}</span>
+                </mat-card-subtitle>
+            </div>
+            <div class="status-bubble"
+                [ngClass]="{'online': conversation.online_status, 'offline': !conversation.online_status}"></div>
+        </mat-card-header>
+    </div>
+</div>
+<div *ngIf="selectedUserId">
+    <app-chat [userId]="selectedUserId" (back)="clearConversation()"></app-chat>
+</div>
