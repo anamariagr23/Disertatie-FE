@@ -39,6 +39,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { RoommateRequestsComponent } from './roommate-requests/roommate-requests.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { DormAdminPageComponent } from './dorm-admin-page/dorm-admin-page.component';
+import { MatchingDashboardComponent } from './matching-dashboard/matching-dashboard.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const config: SocketIoConfig = { url: 'wss://127.0.0.1:5000', options: {} };
 
@@ -62,6 +65,7 @@ const config: SocketIoConfig = { url: 'wss://127.0.0.1:5000', options: {} };
     RoommateRequestsComponent,
     AdminPageComponent,
     DormAdminPageComponent,
+    MatchingDashboardComponent,
 
   ],
   imports: [
@@ -81,6 +85,8 @@ const config: SocketIoConfig = { url: 'wss://127.0.0.1:5000', options: {} };
     MatSidenavModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatTableModule,
+    MatProgressBarModule,
     SocketIoModule.forRoot(config)
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,0 +1,126 @@
+<div class="matching-dashboard">
+  <div class="header">
+    <h1>Group Matching Dashboard</h1>
+    <p>Run the matching algorithm and visualize room assignments</p>
+  </div>
+
+  <div class="control-panel">
+    <div class="control-group">
+      <label for="method">Method:</label>
+      <select [(ngModel)]="selectedMethod" id="method" [disabled]="isLoading">
+        <option *ngFor="let m of methods" [value]="m.value">{{ m.label }}</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label for="seed">Seed:</label>
+      <input
+        type="number"
+        [(ngModel)]="seed"
+        id="seed"
+        [disabled]="isLoading"
+        min="1"
+      />
+    </div>
+
+    <button
+      (click)="runMatching()"
+      [disabled]="isLoading"
+      class="run-button"
+    >
+      <span *ngIf="isLoading">Running...</span>
+      <span *ngIf="!isLoading">Run Matching</span>
+    </button>
+
+    <span *ngIf="lastSeed !== null" class="last-seed-info">
+      Last run: Seed {{ lastSeed }}
+    </span>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-banner">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="metrics.length > 0" class="metrics-panel">
+    <h2>Metrics Summary</h2>
+    <div class="metrics-grid">
+      <div *ngFor="let m of metrics" class="metric-group">
+        <h3 class="gender-label">{{ m.gender | titlecase }} Pool</h3>
+        <div class="metric-cards">
+          <div class="metric-card">
+            <span class="metric-label">Avg Cohesion</span>
+            <span class="metric-value" [style.color]="getScoreColor(m.avg_cohesion)">
+              {{ formatScore(m.avg_cohesion) }}%
+            </span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Worst-Off Score</span>
+            <span class="metric-value" [style.color]="getScoreColor(m.worst_min_pairwise)">
+              {{ formatScore(m.worst_min_pairwise) }}%
+            </span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Bond Satisfaction</span>
+            <span class="metric-value" [style.color]="getScoreColor(m.bond_satisfaction)">
+              {{ formatScore(m.bond_satisfaction) }}%
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="rooms.length > 0" class="results-panel">
+    <div class="results-header">
+      <h2>Room Assignments ({{ filteredRooms.length }} of {{ rooms.length }} rooms)</h2>
+      <div class="gender-tabs">
+        <button
+          [class.active]="genderFilter === 'all'"
+          (click)="genderFilter = 'all'"
+        >All</button>
+        <button
+          [class.active]="genderFilter === 'female'"
+          (click)="genderFilter = 'female'"
+        >Female</button>
+        <button
+          [class.active]="genderFilter === 'male'"
+          (click)="genderFilter = 'male'"
+        >Male</button>
+      </div>
+    </div>
+
+    <div class="rooms-grid">
+      <div
+        *ngFor="let room of filteredRooms"
+        [ngClass]="'room-card ' + getScoreClass(room.group_score)"
+      >
+        <div class="room-header">
+          <h3>{{ room.room }}</h3>
+          <span class="capacity">{{ room.members.length }} students</span>
+        </div>
+
+        <div class="score-bar">
+          <div
+            class="score-fill"
+            [style.width.%]="room.group_score * 100"
+            [style.backgroundColor]="getScoreColor(room.group_score)"
+          ></div>
+        </div>
+        <span class="score-text">Score: {{ formatScore(room.group_score) }}%</span>
+
+        <div class="members">
+          <h4>Members (Student IDs):</h4>
+          <ul>
+            <li *ngFor="let memberId of room.members">
+              Student #{{ memberId }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && rooms.length === 0 && !errorMessage" class="empty-state">
+    <p>No results yet. Click "Run Matching" to generate assignments.</p>
+  </div>
+</div>
