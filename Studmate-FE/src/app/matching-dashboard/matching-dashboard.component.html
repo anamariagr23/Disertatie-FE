@@ -23,6 +23,22 @@
       />
     </div>
 
+    <div class="control-group">
+      <label for="source">Data source:</label>
+      <select [(ngModel)]="selectedSource" id="source" [disabled]="isLoading">
+        <option value="csv">Frozen CSV (thesis dataset)</option>
+        <option value="db">Live database</option>
+      </select>
+    </div>
+
+    <div class="control-group" *ngIf="selectedSource === 'db'">
+      <label for="dorm">Dorm (optional, all dorms if unset):</label>
+      <select [(ngModel)]="selectedDormId" id="dorm" [disabled]="isLoading">
+        <option [ngValue]="null">All dorms</option>
+        <option *ngFor="let dorm of dorms" [ngValue]="dorm.id">{{ dorm.name }}</option>
+      </select>
+    </div>
+
     <button
       (click)="runMatching()"
       [disabled]="isLoading"
@@ -109,10 +125,10 @@
         <span class="score-text">Score: {{ formatScore(room.group_score) }}%</span>
 
         <div class="members">
-          <h4>Members (Student IDs):</h4>
+          <h4>Members:</h4>
           <ul>
             <li *ngFor="let memberId of room.members">
-              Student #{{ memberId }}
+              {{ room.member_names?.[memberId] || ('Student #' + memberId) }}
             </li>
           </ul>
         </div>

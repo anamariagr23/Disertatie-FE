@@ -33,4 +33,8 @@ export class RoommateService {
   acceptRequest(requestId: number): Observable<void> {
     return this.http.patch<void>(`https://127.0.0.1:5000/roommate_requests/${requestId}`, { accepted: true });
   }
+
+  declineRequest(requestId: number): Observable<void> {
+    return this.http.patch<void>(`https://127.0.0.1:5000/roommate_requests/${requestId}`, { accepted: false });
+  }
 }

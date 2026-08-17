@@ -1,6 +1,6 @@
-<h1 mat-dialog-title>Accept Roommate Request</h1>
+<h1 mat-dialog-title>{{ title }}</h1>
 <div mat-dialog-content>
-    <p>This action is irreversible. Are you sure you want to accept this roommate request?</p>
+    <p>{{ message }}</p>
 </div>
 <div mat-dialog-actions align="end">
     <button mat-button (click)="onCancelClick()">Cancel</button>

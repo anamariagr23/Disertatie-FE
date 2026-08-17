@@ -6,7 +6,7 @@ export interface RoommateRequest {
     requester_status_id: number;
     requester_avatar: string;
     viewed: boolean;
-    accepted: boolean;
+    accepted: boolean | null;
 }
 
 export interface RoommateRequestsResponse {

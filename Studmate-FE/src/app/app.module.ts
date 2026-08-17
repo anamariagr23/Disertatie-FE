@@ -42,6 +42,9 @@ import { DormAdminPageComponent } from './dorm-admin-page/dorm-admin-page.compon
 import { MatchingDashboardComponent } from './matching-dashboard/matching-dashboard.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSliderModule } from '@angular/material/slider';
+import { MyRoomComponent } from './my-room/my-room.component';
+import { DormStructureComponent } from './dorm-structure/dorm-structure.component';
 
 const config: SocketIoConfig = { url: 'wss://127.0.0.1:5000', options: {} };
 
@@ -66,6 +69,8 @@ const config: SocketIoConfig = { url: 'wss://127.0.0.1:5000', options: {} };
     AdminPageComponent,
     DormAdminPageComponent,
     MatchingDashboardComponent,
+    MyRoomComponent,
+    DormStructureComponent,
 
   ],
   imports: [
@@ -87,6 +92,7 @@ const config: SocketIoConfig = { url: 'wss://127.0.0.1:5000', options: {} };
     MatProgressSpinnerModule,
     MatTableModule,
     MatProgressBarModule,
+    MatSliderModule,
     SocketIoModule.forRoot(config)
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

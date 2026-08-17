@@ -58,6 +58,30 @@
     margin-top: 20px;
 }
 
+.bond-group-panel {
+    max-width: 800px;
+    margin: 0 auto 20px;
+    background-color: #e8eaf6;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 16px;
+}
+
+.bond-group-warning {
+    color: #c62828;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.error-banner {
+    max-width: 800px;
+    margin: 0 auto 20px;
+    background-color: #ffebee;
+    color: #c62828;
+    border-radius: 8px;
+    padding: 12px 20px;
+}
+
 
 .request-card.grayed-out {
     opacity: 0.5;
@@ -70,6 +94,15 @@
 
 .accepted-button {
     background-color: green !important;
+    color: white !important;
+    font-size: 14px;
+    border-radius: 4px;
+    pointer-events: none;
+    cursor: default;
+}
+
+.declined-button {
+    background-color: #9e9e9e !important;
     color: white !important;
     font-size: 14px;
     border-radius: 4px;

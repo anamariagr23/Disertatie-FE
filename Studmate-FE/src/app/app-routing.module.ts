@@ -10,9 +10,11 @@ import { LoginRedirectComponentComponent } from './login-redirect-component/logi
 import { LayoutComponent } from './layout/layout.component';
 import { ChatComponent } from './chat/chat.component';
 import { RoommateRequestsComponent } from './roommate-requests/roommate-requests.component';
+import { MyRoomComponent } from './my-room/my-room.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { DormAdminPageComponent } from './dorm-admin-page/dorm-admin-page.component';
 import { MatchingDashboardComponent } from './matching-dashboard/matching-dashboard.component';
+import { DormStructureComponent } from './dorm-structure/dorm-structure.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -22,6 +24,7 @@ const routes: Routes = [
   { path: 'admin-page', component: AdminPageComponent },
   { path: 'dorm-admin-page', component: DormAdminPageComponent },
   { path: 'matching-dashboard', component: MatchingDashboardComponent },
+  { path: 'dorm-structure', component: DormStructureComponent },
   {
     path: '',
     component: LayoutComponent,
@@ -30,7 +33,8 @@ const routes: Routes = [
       { path: 'survey', component: SurveyPageComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'chat/:id', component: ChatComponent },
-      { path: 'roommate-requests', component: RoommateRequestsComponent }
+      { path: 'roommate-requests', component: RoommateRequestsComponent },
+      { path: 'my-room', component: MyRoomComponent }
     ],
   },
   { path: '**', redirectTo: 'login' },

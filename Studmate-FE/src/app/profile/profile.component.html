@@ -1,5 +1,10 @@
 <app-navbar></app-navbar>
-<div class="container" *ngIf="!isLoading; else loading">
+<div *ngIf="isLoading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Loading...</p>
+</div>
+<div *ngIf="!isLoading && errorMessage" class="error-banner">{{ errorMessage }}</div>
+<div class="container" *ngIf="!isLoading && !errorMessage">
     <div class="left-section">
         <div mat-card-avatar class="student-avatar" *ngIf="student?.avatar_link">
             <img [src]="student.avatar_link" referrerpolicy="no-referrer">
@@ -49,9 +54,3 @@
         </div>
     </div>
 </div>
-<ng-template #loading>
-    <div class="loading-container">
-        <mat-spinner></mat-spinner>
-        <p>Loading...</p>
-    </div>
-</ng-template>

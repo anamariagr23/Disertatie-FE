@@ -1,0 +1,43 @@
+<app-navbar></app-navbar>
+<div class="my-room-container">
+    <div class="form-header">My Room</div>
+
+    <div *ngIf="loading" class="status-message">Loading...</div>
+
+    <div *ngIf="!loading && errorMessage" class="status-message error">{{ errorMessage }}</div>
+
+    <div *ngIf="!loading && !errorMessage && !assignment" class="status-message">
+        No room proposed yet. Check back after the next matching run.
+    </div>
+
+    <div *ngIf="!loading && assignment as a" class="room-card">
+        <div class="room-header">
+            <div>
+                <div class="room-label">{{ a.room?.dorm }} &mdash; Room {{ a.room?.label }}</div>
+                <div class="room-capacity">{{ a.roommates.length + 1 }} / {{ a.room?.capacity }} beds</div>
+            </div>
+            <div class="status-badge" [ngClass]="a.status">{{ a.status }}</div>
+        </div>
+
+        <div class="group-score">
+            Compatibility score: <span class="score-value">{{ formatScore(a.group_score) }}%</span>
+        </div>
+
+        <div class="roommates-section">
+            <div class="section-title">Roommates</div>
+            <ul *ngIf="a.roommates.length > 0; else noRoommates" class="roommate-list">
+                <li *ngFor="let r of a.roommates" class="roommate-item">
+                    {{ r.firstname }} {{ r.lastname }}
+                </li>
+            </ul>
+            <ng-template #noRoommates>
+                <p class="no-roommates">No roommates in this room yet.</p>
+            </ng-template>
+        </div>
+
+        <div class="actions">
+            <button *ngIf="a.status === 'proposed'" mat-raised-button color="primary" (click)="accept()">Accept</button>
+            <button *ngIf="a.status !== 'rejected'" mat-raised-button color="warn" (click)="reject()">Reject</button>
+        </div>
+    </div>
+</div>

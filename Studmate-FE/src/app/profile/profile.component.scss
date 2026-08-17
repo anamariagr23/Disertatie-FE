@@ -4,6 +4,16 @@
     box-sizing: border-box;
 }
 
+.error-banner {
+    max-width: 1500px;
+    margin: 40px auto;
+    background-color: #ffebee;
+    color: #c62828;
+    border-radius: 8px;
+    padding: 16px 20px;
+    text-align: center;
+}
+
 .container {
     background-color: #ffffff;
     border-radius: 8px;

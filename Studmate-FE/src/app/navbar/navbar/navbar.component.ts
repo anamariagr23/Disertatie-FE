@@ -116,6 +116,10 @@ export class NavbarComponent {
     this.navigationService.navigateToRoomateRequests();
   }
 
+  navigateToMyRoom(): void {
+    this.navigationService.navigateToMyRoom();
+  }
+
   openDrawer() {
     this.drawerService.openDrawer();
   }

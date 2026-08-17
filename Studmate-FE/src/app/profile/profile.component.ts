@@ -145,6 +145,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private queryParamsSubscription!: Subscription;
   requestMade: boolean = false;
   isLoading: boolean = true;
+  errorMessage: string | null = null;
 
   constructor(
     private router: Router,
@@ -174,24 +175,38 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   loadLoggedInStudentProfile(): void {
     this.isLoading = true;
-    this.studentService.getStudentDetails().subscribe(response => {
-      this.student = response.student;
-      this.categories = this.student.categories;
-      console.log(this.student);
-      console.log(this.categories);
-      this.isLoading = false;
+    this.errorMessage = null;
+    this.studentService.getStudentDetails().subscribe({
+      next: response => {
+        this.student = response.student;
+        this.categories = this.student.categories;
+        this.isLoading = false;
+      },
+      error: error => {
+        console.error('Error loading own profile:', error);
+        this.isLoading = false;
+        this.errorMessage = 'Could not load your profile.';
+      }
     });
   }
 
   loadStudentProfile(studentId: number): void {
     this.isLoading = true;
-    this.studentService.getStudentProfile(studentId).subscribe(response => {
-      this.student = response.student;
-      this.compatibilityScore = response.compatibility_score;
-      this.categories = response.categories;
-      console.log(this.student);
-      console.log(this.categories);
-      this.isLoading = false;
+    this.errorMessage = null;
+    this.studentService.getStudentProfile(studentId).subscribe({
+      next: response => {
+        this.student = response.student;
+        this.compatibilityScore = response.compatibility_score;
+        this.categories = response.categories;
+        this.isLoading = false;
+      },
+      error: error => {
+        console.error('Error loading student profile:', error);
+        this.isLoading = false;
+        this.errorMessage = error?.status === 404
+          ? 'Student not found.'
+          : 'Could not load this profile.';
+      }
     });
   }
 

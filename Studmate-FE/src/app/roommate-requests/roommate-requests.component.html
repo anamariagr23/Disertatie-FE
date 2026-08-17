@@ -1,4 +1,17 @@
 <app-navbar></app-navbar>
+
+<div *ngIf="bondGroup && bondGroup.group_size > 1" class="bond-group-panel">
+    <p>
+        You + {{ bondGroup.members[0].firstname }} {{ bondGroup.members[0].lastname }}<ng-container *ngFor="let m of bondGroup.members.slice(1)"> + {{ m.firstname }} {{ m.lastname }}</ng-container>
+        &mdash; needs a {{ bondGroup.group_size }}-person room.
+    </p>
+    <p *ngIf="bondGroup.max_room_capacity !== null && bondGroup.group_size > bondGroup.max_room_capacity" class="bond-group-warning">
+        The largest room in your dorm only holds {{ bondGroup.max_room_capacity }} -- accepting further requests will be blocked.
+    </p>
+</div>
+
+<div *ngIf="errorMessage" class="error-banner">{{ errorMessage }}</div>
+
 <ul *ngIf="roommateRequests.length > 0; else noRequests" class="request-list">
     <li *ngFor="let request of roommateRequests" class="request-card"
         [ngClass]="{'grayed-out': request.requester_status_id === 2 && !request.accepted}">
@@ -12,11 +25,15 @@
                 </div>
             </div>
             <div class="actions">
-                <button *ngIf="!request.accepted" mat-raised-button color="primary"
-                    (click)="acceptRequest(request.request_id)">Accept</button>
-                <button *ngIf="!request.accepted" mat-raised-button color="warn">Decline</button>
+                <ng-container *ngIf="request.accepted === null">
+                    <button mat-raised-button color="primary"
+                        (click)="acceptRequest(request.request_id)">Accept</button>
+                    <button mat-raised-button color="warn"
+                        (click)="declineRequest(request.request_id)">Decline</button>
+                </ng-container>
 
                 <button *ngIf="request.accepted === true" mat-raised-button class="accepted-button">Accepted</button>
+                <button *ngIf="request.accepted === false" mat-raised-button class="declined-button">Declined</button>
             </div>
         </div>
     </li>

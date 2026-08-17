@@ -17,18 +17,6 @@
             </div>
 
             <div class="form-group">
-                <p>Choose your major from the list.</p>
-                <mat-form-field appearance="fill" class="custom-mat-form-field">
-                    <mat-label>Major</mat-label>
-                    <mat-select formControlName="major">
-                        <mat-option *ngFor="let major of majors" [value]="major.id">{{ major.name }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
                 <p>Select your sex as registered in official documents.</p>
                 <mat-form-field appearance="fill" class="custom-mat-form-field">
                     <mat-label>Sex</mat-label>
@@ -37,9 +25,21 @@
                     </mat-select>
                 </mat-form-field>
             </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <p>Choose your major from the list (optional).</p>
+                <mat-form-field appearance="fill" class="custom-mat-form-field">
+                    <mat-label>Major</mat-label>
+                    <mat-select formControlName="major">
+                        <mat-option *ngFor="let major of majors" [value]="major.id">{{ major.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
             <div class="form-group">
-                <p>Choose your current year of study.</p>
+                <p>Choose your current year of study (optional).</p>
                 <mat-form-field appearance="fill" class="custom-mat-form-field">
                     <mat-label>Year of Study</mat-label>
                     <mat-select formControlName="yearOfStudy">
@@ -47,246 +47,198 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-
         </div>
 
-
-
-
-
         <div class="form-group">
-            <p>Provide a brief bio about yourself.</p>
+            <p>Provide a brief bio about yourself (optional).</p>
             <mat-form-field appearance="fill" class="custom-mat-form-field">
                 <mat-label>Description</mat-label>
                 <textarea matInput formControlName="description"></textarea>
             </mat-form-field>
         </div>
 
+        <div class="slider-section-header">Roommate preferences (1 = doesn't matter, 5 = matters a lot)</div>
+
         <div class="form-row">
-            <div class="form-group">
-                <div class="label-wrapper">
-                    <p>Describe your cleanliness habits (e.g., frequency of cleaning room).</p>
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>Sleep schedule</span>
+                    <span class="slider-value">{{ studentForm.get('cat_sleep')?.value }}</span>
                 </div>
-                <div class="field-wrapper">
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Cleanliness Habits</mat-label>
-                        <textarea matInput formControlName="cleanlinessHabits"></textarea>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Importance</mat-label>
-                        <mat-select formControlName="cleanlinessHabitsImportance">
-                            <mat-option [value]="null">Empty</mat-option>
-                            <mat-option
-                                *ngFor="let importance of getAvailableScores(studentForm.get('cleanlinessHabitsImportance')?.value)"
-                                [value]="importance">{{ importance }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                <mat-slider min="1" max="5" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="cat_sleep">
+                </mat-slider>
             </div>
 
-            <div class="form-group">
-                <div class="label-wrapper">
-                    <p>Specify your typical sleeping hours (e.g., 10 PM to 6 AM) and how these hours can vary
-                        (e.g., during weekends, exams, etc.).</p>
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>Noise tolerance</span>
+                    <span class="slider-value">{{ studentForm.get('cat_noise')?.value }}</span>
                 </div>
-                <div class="field-wrapper">
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Sleeping Patterns</mat-label>
-                        <textarea matInput formControlName="sleepingPatterns"></textarea>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Importance</mat-label>
-                        <mat-select formControlName="sleepingPatternsImportance">
-                            <mat-option [value]="null">Empty</mat-option>
-                            <mat-option
-                                *ngFor="let importance of getAvailableScores(studentForm.get('sleepingPatternsImportance')?.value)"
-                                [value]="importance">{{ importance }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <div class="label-wrapper">
-                    <p>Describe your tolerance level for noise (e.g., low, moderate, high) and the types of
-                        noises you are making (e.g., music, TV, etc.).</p>
-                </div>
-                <div class="field-wrapper">
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Noise Tolerance</mat-label>
-                        <textarea matInput formControlName="noiseTolerance"></textarea>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Importance</mat-label>
-                        <mat-select formControlName="noiseToleranceImportance">
-                            <mat-option [value]="null">Empty</mat-option>
-                            <mat-option
-                                *ngFor="let importance of getAvailableScores(studentForm.get('noiseToleranceImportance')?.value)"
-                                [value]="importance">{{ importance }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="label-wrapper">
-                    <p>Describe your willingness to share personal belongings (e.g., clothes, books).</p>
-                </div>
-                <div class="field-wrapper">
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Personal Belongings Sharing</mat-label>
-                        <textarea matInput formControlName="belongingsSharing"></textarea>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Importance</mat-label>
-                        <mat-select formControlName="belongingsSharingImportance">
-                            <mat-option [value]="null">Empty</mat-option>
-                            <mat-option
-                                *ngFor="let importance of getAvailableScores(studentForm.get('belongingsSharingImportance')?.value)"
-                                [value]="importance">{{ importance }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                <mat-slider min="1" max="5" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="cat_noise">
+                </mat-slider>
             </div>
         </div>
 
         <div class="form-row">
-            <div class="form-group">
-                <div class="label-wrapper">
-                    <p>Describe your policy on guests (e.g., are overnight guests allowed?).</p>
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>Cleanliness</span>
+                    <span class="slider-value">{{ studentForm.get('cat_clean')?.value }}</span>
                 </div>
-                <div class="field-wrapper">
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Guest Policy</mat-label>
-                        <textarea matInput formControlName="guestPolicy"></textarea>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Importance</mat-label>
-                        <mat-select formControlName="guestPolicyImportance">
-                            <mat-option [value]="null">Empty</mat-option>
-                            <mat-option
-                                *ngFor="let importance of getAvailableScores(studentForm.get('guestPolicyImportance')?.value)"
-                                [value]="importance">{{ importance }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                <mat-slider min="1" max="5" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="cat_clean">
+                </mat-slider>
             </div>
 
-            <div class="form-group">
-                <div class="label-wrapper">
-                    <p>Describe your approach to sharing responsibilities (e.g., cleaning, cooking).</p>
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>Sociability</span>
+                    <span class="slider-value">{{ studentForm.get('cat_social')?.value }}</span>
                 </div>
-                <div class="field-wrapper">
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Sharing Responsibilities</mat-label>
-                        <textarea matInput formControlName="sharingResponsibilities"></textarea>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Importance</mat-label>
-                        <mat-select formControlName="sharingResponsibilitiesImportance">
-                            <mat-option [value]="null">Empty</mat-option>
-                            <mat-option
-                                *ngFor="let importance of getAvailableScores(studentForm.get('sharingResponsibilitiesImportance')?.value)"
-                                [value]="importance">{{ importance }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                <mat-slider min="1" max="5" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="cat_social">
+                </mat-slider>
             </div>
         </div>
 
         <div class="form-row">
-            <div class="form-group">
-                <div class="label-wrapper">
-                    <p>Describe your willingness to share household items (e.g., kitchen appliances, tools).</p>
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>Willingness to share belongings</span>
+                    <span class="slider-value">{{ studentForm.get('cat_sharing')?.value }}</span>
                 </div>
-                <div class="field-wrapper">
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Household Items Sharing</mat-label>
-                        <textarea matInput formControlName="itemsSharing"></textarea>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Importance</mat-label>
-                        <mat-select formControlName="itemsSharingImportance">
-                            <mat-option [value]="null">Empty</mat-option>
-                            <mat-option
-                                *ngFor="let importance of getAvailableScores(studentForm.get('itemsSharingImportance')?.value)"
-                                [value]="importance">{{ importance }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                <mat-slider min="1" max="5" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="cat_sharing">
+                </mat-slider>
             </div>
 
-            <div class="form-group">
-                <div class="label-wrapper">
-                    <p>Specify your temperature preferences for living spaces (e.g., warm, cool).</p>
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>Lifestyle (smoking / drinking / healthy eating)</span>
+                    <span class="slider-value">{{ studentForm.get('cat_lifestyle')?.value }}</span>
                 </div>
-                <div class="field-wrapper">
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Temperature Preferences</mat-label>
-                        <textarea matInput formControlName="temperaturePreferences"></textarea>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Importance</mat-label>
-                        <mat-select formControlName="temperaturePreferencesImportance">
-                            <mat-option [value]="null">Empty</mat-option>
-                            <mat-option
-                                *ngFor="let importance of getAvailableScores(studentForm.get('temperaturePreferencesImportance')?.value)"
-                                [value]="importance">{{ importance }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                <mat-slider min="1" max="5" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="cat_lifestyle">
+                </mat-slider>
+            </div>
+        </div>
+
+        <div class="slider-section-header">Interests</div>
+
+        <div class="form-row">
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>Arts &amp; Humanities interest</span>
+                    <span class="slider-value">{{ studentForm.get('cat_hobby1')?.value }}</span>
                 </div>
+                <mat-slider min="1" max="5" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="cat_hobby1">
+                </mat-slider>
+            </div>
+
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>STEM &amp; Technical interest</span>
+                    <span class="slider-value">{{ studentForm.get('cat_hobby2')?.value }}</span>
+                </div>
+                <mat-slider min="1" max="5" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="cat_hobby2">
+                </mat-slider>
+            </div>
+        </div>
+
+        <div class="form-group bipolar-slider-group">
+            <div class="bipolar-label-row">
+                <span class="end-label">Civic &amp; Business subjects<br>(Economics, Politics, Law)</span>
+                <mat-slider min="1" max="5" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="cat_hobby3">
+                </mat-slider>
+                <span class="end-label">Natural Sciences<br>(Chemistry, Biology, Medicine)</span>
+            </div>
+        </div>
+
+        <div class="slider-section-header">How important is each of these to you? (1 = doesn't matter, 10 = essential)</div>
+
+        <div class="form-row">
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>Sleep schedule importance</span>
+                    <span class="slider-value">{{ studentForm.get('imp_sleep')?.value }}</span>
+                </div>
+                <mat-slider min="1" max="10" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="imp_sleep">
+                </mat-slider>
+            </div>
+
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>Noise tolerance importance</span>
+                    <span class="slider-value">{{ studentForm.get('imp_noise')?.value }}</span>
+                </div>
+                <mat-slider min="1" max="10" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="imp_noise">
+                </mat-slider>
             </div>
         </div>
 
         <div class="form-row">
-            <div class="form-group">
-                <div class="label-wrapper">
-                    <p>List and describe your hobbies and interests.</p>
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>Cleanliness importance</span>
+                    <span class="slider-value">{{ studentForm.get('imp_clean')?.value }}</span>
                 </div>
-                <div class="field-wrapper">
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Hobbies</mat-label>
-                        <textarea matInput formControlName="hobbies"></textarea>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Importance</mat-label>
-                        <mat-select formControlName="hobbiesImportance">
-                            <mat-option [value]="null">Empty</mat-option>
-                            <mat-option
-                                *ngFor="let importance of getAvailableScores(studentForm.get('hobbiesImportance')?.value)"
-                                [value]="importance">{{ importance }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                <mat-slider min="1" max="10" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="imp_clean">
+                </mat-slider>
             </div>
 
-            <div class="form-group">
-                <div class="label-wrapper">
-                    <p>Describe your personal values and beliefs.</p>
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>Sociability importance</span>
+                    <span class="slider-value">{{ studentForm.get('imp_social')?.value }}</span>
                 </div>
-                <div class="field-wrapper">
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Personal Values and Beliefs</mat-label>
-                        <textarea matInput formControlName="personalValues"></textarea>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="custom-mat-form-field">
-                        <mat-label>Importance</mat-label>
-                        <mat-select formControlName="personalValuesImportance">
-                            <mat-option [value]="null">Empty</mat-option>
-                            <mat-option
-                                *ngFor="let importance of getAvailableScores(studentForm.get('personalValuesImportance')?.value)"
-                                [value]="importance">{{ importance }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                <mat-slider min="1" max="10" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="imp_social">
+                </mat-slider>
             </div>
         </div>
 
+        <div class="form-row">
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>Sharing importance</span>
+                    <span class="slider-value">{{ studentForm.get('imp_sharing')?.value }}</span>
+                </div>
+                <mat-slider min="1" max="10" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="imp_sharing">
+                </mat-slider>
+            </div>
 
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>Lifestyle importance</span>
+                    <span class="slider-value">{{ studentForm.get('imp_lifestyle')?.value }}</span>
+                </div>
+                <mat-slider min="1" max="10" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="imp_lifestyle">
+                </mat-slider>
+            </div>
+        </div>
 
+        <div class="form-row">
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span>Interests importance</span>
+                    <span class="slider-value">{{ studentForm.get('imp_hobbies')?.value }}</span>
+                </div>
+                <mat-slider min="1" max="10" step="1" discrete class="full-width-slider">
+                    <input matSliderThumb formControlName="imp_hobbies">
+                </mat-slider>
+            </div>
+        </div>
 
-
-        <button mat-raised-button color="primary" type="submit" class="submit-button">Submit</button>
+        <button mat-raised-button color="primary" type="submit" class="submit-button" [disabled]="!studentForm.valid">Submit</button>
     </form>
 </div>

@@ -51,4 +51,8 @@ export class NavigationService {
     this.navigateTo(ROUTE_PATHS.REQUESTS);
   }
 
+  navigateToMyRoom(): void {
+    this.navigateTo(ROUTE_PATHS.MY_ROOM);
+  }
+
 }

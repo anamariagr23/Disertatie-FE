@@ -5,12 +5,15 @@ import { Observable } from 'rxjs';
 export interface MatchingRequest {
   method: 'random' | 'greedy' | 'greedy+hc' | 'greedy+sa';
   seed?: number;
+  source?: 'csv' | 'db';
+  dorm_id?: number;
 }
 
 export interface RoomResult {
   room: string;
   gender: 'female' | 'male';
   members: number[];
+  member_names?: { [studentId: string]: string };
   group_score: number;
 }
 
@@ -39,6 +42,21 @@ export interface MetricsResponse {
   metrics: GenderMetrics[];
 }
 
+export interface Roommate {
+  student_id: number;
+  firstname: string;
+  lastname: string;
+}
+
+export interface MyAssignmentResponse {
+  assignment_id: number;
+  status: 'proposed' | 'confirmed' | 'rejected';
+  run_id: string;
+  group_score: number;
+  room: { id: number; label: string; capacity: number; dorm: string | null } | null;
+  roommates: Roommate[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -63,6 +81,19 @@ export class MatchingService {
   getMetrics(): Observable<MetricsResponse> {
     return this.http.get<MetricsResponse>(
       `${this.apiUrl}/matching/metrics`
+    );
+  }
+
+  getMyAssignment(): Observable<MyAssignmentResponse> {
+    return this.http.get<MyAssignmentResponse>(
+      `${this.apiUrl}/matching/my-assignment`
+    );
+  }
+
+  respondToAssignment(assignmentId: number, action: 'accept' | 'reject'): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/matching/assignment/${assignmentId}/respond`,
+      { action }
     );
   }
 }

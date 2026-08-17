@@ -1,0 +1,108 @@
+.my-room-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+.form-header {
+    background-color: #3f51b5;
+    color: white;
+    padding: 16px;
+    font-size: 24px;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+    margin: -20px -20px 20px;
+}
+
+.status-message {
+    text-align: center;
+    padding: 40px 0;
+    color: #666;
+}
+
+.status-message.error {
+    color: #f44336;
+}
+
+.room-card {
+    background-color: #fafafa;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.room-label {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.room-capacity {
+    color: #666;
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.status-badge.proposed {
+    background-color: #ff9800;
+}
+
+.status-badge.confirmed {
+    background-color: #4caf50;
+}
+
+.status-badge.rejected {
+    background-color: #9e9e9e;
+}
+
+.group-score {
+    margin: 16px 0;
+    font-size: 16px;
+}
+
+.score-value {
+    font-weight: bold;
+    color: #3f51b5;
+}
+
+.roommates-section {
+    margin: 16px 0;
+}
+
+.section-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.roommate-list {
+    list-style: none;
+    padding: 0;
+}
+
+.roommate-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.no-roommates {
+    color: #666;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}

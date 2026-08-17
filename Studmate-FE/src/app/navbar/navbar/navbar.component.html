@@ -11,6 +11,9 @@
         <button *ngIf="idRole === 3" mat-icon-button (click)="navigateToRoomateRequests()">
             <mat-icon>group</mat-icon>
         </button>
+        <button *ngIf="idRole === 3" mat-icon-button (click)="navigateToMyRoom()">
+            <mat-icon>meeting_room</mat-icon>
+        </button>
         <div *ngIf="notificationCount > 0 && idRole === 3" class="notification-bubble">{{ notificationCount }}</div>
         <button mat-icon-button *ngIf="idRole === 3" (click)="openDrawer()">
             <mat-icon>message</mat-icon>

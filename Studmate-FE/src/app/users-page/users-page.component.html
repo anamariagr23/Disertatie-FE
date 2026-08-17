@@ -7,17 +7,20 @@
             </div>
             <div class="student-info">
                 <mat-card-title class="title">{{ student.firstname }} {{ student.lastname }}</mat-card-title>
-                <mat-card-subtitle class="subtitle">{{ student.major }}, {{ getOrdinalSuffix(student.year_of_study)
-                    }} year</mat-card-subtitle>
+                <mat-card-subtitle class="subtitle">
+                    {{ student.major || 'Major not set' }}<ng-container *ngIf="student.year_of_study">, {{ getOrdinalSuffix(student.year_of_study) }} year</ng-container>
+                </mat-card-subtitle>
             </div>
         </mat-card-header>
         <mat-card-content>
-            <span class="normal-bold-text">Average score</span>
-            <div class="bar-container">
-                <div class="bar" [style.width.%]="student.total_score * 100"
-                    [style.background]="getColorForPercentage(student.total_score)"></div>
-                <span class="bar-label">{{ (student.total_score * 100) | number:'1.0-0' }}%</span>
-            </div>
+            <ng-container *ngIf="student.total_score !== undefined && student.total_score !== null">
+                <span class="normal-bold-text">Average score</span>
+                <div class="bar-container">
+                    <div class="bar" [style.width.%]="student.total_score * 100"
+                        [style.background]="getColorForPercentage(student.total_score)"></div>
+                    <span class="bar-label">{{ (student.total_score * 100) | number:'1.0-0' }}%</span>
+                </div>
+            </ng-container>
             <p class="normal-text">{{ student.description }}</p>
             <div *ngIf="student.categories && student.categories.length" class="categories-wrapper">
                 <div *ngFor="let category of getTopCategories(student.categories)" class="category-item">

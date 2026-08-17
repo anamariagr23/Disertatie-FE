@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatchingService, MatchingRequest, RoomResult, GenderMetrics } from '../services/matching.service';
+import { StudentService } from '../services/student.service';
+import { Dorm } from 'src/shared/models/student.interface';
 
 @Component({
   selector: 'app-matching-dashboard',
@@ -9,6 +11,9 @@ import { MatchingService, MatchingRequest, RoomResult, GenderMetrics } from '../
 export class MatchingDashboardComponent implements OnInit {
   selectedMethod: 'random' | 'greedy' | 'greedy+hc' | 'greedy+sa' = 'greedy+hc';
   seed = 42;
+  selectedSource: 'csv' | 'db' = 'csv';
+  selectedDormId: number | null = null;
+  dorms: Dorm[] = [];
   isLoading = false;
   errorMessage: string | null = null;
   rooms: RoomResult[] = [];
@@ -23,10 +28,14 @@ export class MatchingDashboardComponent implements OnInit {
     { value: 'greedy+sa', label: 'Greedy + Simulated Annealing' }
   ];
 
-  constructor(private matchingService: MatchingService) { }
+  constructor(private matchingService: MatchingService, private studentService: StudentService) { }
 
   ngOnInit(): void {
     this.loadResults();
+    this.studentService.getDorms().subscribe({
+      next: (response) => this.dorms = response.dorms,
+      error: (error) => console.error('Error fetching dorms', error)
+    });
   }
 
   runMatching(): void {
@@ -36,8 +45,12 @@ export class MatchingDashboardComponent implements OnInit {
     this.errorMessage = null;
     const request: MatchingRequest = {
       method: this.selectedMethod,
-      seed: this.seed
+      seed: this.seed,
+      source: this.selectedSource
     };
+    if (this.selectedSource === 'db' && this.selectedDormId) {
+      request.dorm_id = this.selectedDormId;
+    }
 
     this.matchingService.runMatching(request).subscribe({
       next: (response) => {

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Student } from '../../shared/models/student.interface';
 import { StudentService } from '../services/student.service';
 import { NavigationService } from '../services/navigation.service';
+import { UserService } from '../services/user.service';
 import { UtilService } from 'src/shared/utils/util.service';
 
 @Component({
@@ -13,28 +14,25 @@ export class UsersPageComponent implements OnInit {
   students: Student[] = [];
   isLoading: boolean = true;
 
-  constructor(private studentService: StudentService, private utilService: UtilService, private navigationService: NavigationService) { }
-
-  // ngOnInit(): void {
-  //   this.studentService.getStudents().subscribe(response => {
-  //     // TypeScript now knows that response has a property `students`
-  //     this.students = response.students;
-  //   }, error => {
-  //     console.error('Error fetching students:', error);
-  //   });
-  // }
-
+  constructor(
+    private studentService: StudentService,
+    private utilService: UtilService,
+    private navigationService: NavigationService,
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
-    this.getStudentMatches();
+    this.getStudents();
   }
 
-  getStudentMatches(): void {
-    this.studentService.getStudentMatches().subscribe(response => {
-      this.students = response.students;
+  getStudents(): void {
+    const ownId = this.userService.getStudentId();
+    this.studentService.getStudents().subscribe(response => {
+      this.students = response.students.filter(student => student.id !== ownId);
       this.isLoading = false;
     }, error => {
-      console.error('Error fetching student matches:', error);
+      console.error('Error fetching students:', error);
+      this.isLoading = false;
     });
   }
 

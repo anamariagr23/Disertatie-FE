@@ -1,0 +1,112 @@
+.dorm-structure-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+.form-header {
+    background-color: #3f51b5;
+    color: white;
+    padding: 16px;
+    font-size: 24px;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+    margin: -20px -20px 20px;
+}
+
+.wizard-panel {
+    background-color: #fafafa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+.control-group label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.control-group select,
+.control-group input {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.control-row {
+    display: flex;
+    gap: 20px;
+}
+
+.control-row .control-group {
+    flex: 1;
+}
+
+.floor-gender-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.floor-gender-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+}
+
+.error-banner {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 10px 16px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+.status-message {
+    color: #666;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.rooms-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rooms-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rooms-table th,
+.rooms-table td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.rooms-table input,
+.rooms-table select {
+    width: 80px;
+    padding: 4px;
+}
+
+.row-actions {
+    white-space: nowrap;
+}

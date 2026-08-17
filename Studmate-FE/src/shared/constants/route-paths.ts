@@ -5,6 +5,7 @@ export const ROUTE_PATHS = {
     STUDENT_DETAILS: 'student-details',
     PROFILE: 'profile',
     REQUESTS: 'roommate-requests',
+    MY_ROOM: 'my-room',
     ADMIN: 'admin-page',
     DORM_ADMIN: 'dorm-admin-page'
 };

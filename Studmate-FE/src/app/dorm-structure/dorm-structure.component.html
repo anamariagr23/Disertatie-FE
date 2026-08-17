@@ -1,0 +1,90 @@
+<app-navbar></app-navbar>
+<div class="dorm-structure-container">
+    <div class="form-header">Dorm Structure Builder</div>
+
+    <div class="wizard-panel">
+        <div class="control-group">
+            <label for="dorm">Dorm:</label>
+            <select [(ngModel)]="selectedDormId" id="dorm" (ngModelChange)="onDormChange()">
+                <option [ngValue]="null">Select a dorm</option>
+                <option *ngFor="let dorm of dorms" [ngValue]="dorm.id">{{ dorm.name }}</option>
+            </select>
+        </div>
+
+        <ng-container *ngIf="selectedDormId">
+            <div class="control-row">
+                <div class="control-group">
+                    <label for="floors">Floors:</label>
+                    <input type="number" id="floors" [(ngModel)]="floors" (ngModelChange)="rebuildFloorGenders()" min="1">
+                </div>
+                <div class="control-group">
+                    <label for="roomsPerFloor">Rooms per floor:</label>
+                    <input type="number" id="roomsPerFloor" [(ngModel)]="roomsPerFloor" min="1">
+                </div>
+                <div class="control-group">
+                    <label for="capacity">Capacity per room:</label>
+                    <input type="number" id="capacity" [(ngModel)]="capacity" min="1" max="6">
+                </div>
+            </div>
+
+            <div class="floor-gender-list">
+                <div class="floor-gender-row" *ngFor="let fg of floorGenders">
+                    <span>Floor {{ fg.floor }}:</span>
+                    <select [(ngModel)]="fg.gender">
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="mixed">Mixed</option>
+                    </select>
+                </div>
+            </div>
+
+            <button mat-raised-button color="primary" [disabled]="isGenerating" (click)="generateRooms()">
+                {{ isGenerating ? 'Generating...' : 'Generate Rooms' }}
+            </button>
+        </ng-container>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-banner">{{ errorMessage }}</div>
+
+    <div *ngIf="selectedDormId" class="rooms-panel">
+        <div class="rooms-panel-header">
+            <h2>Rooms ({{ rooms.length }})</h2>
+            <button mat-raised-button color="warn" *ngIf="rooms.length > 0" (click)="deleteAllRooms()">
+                Delete All Rooms
+            </button>
+        </div>
+        <div *ngIf="isLoading" class="status-message">Loading...</div>
+        <table *ngIf="!isLoading && rooms.length > 0" class="rooms-table">
+            <thead>
+                <tr>
+                    <th>Label</th>
+                    <th>Floor</th>
+                    <th>Capacity</th>
+                    <th>Gender</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let room of rooms">
+                    <td>{{ room.label }}</td>
+                    <td><input type="number" [(ngModel)]="room.floor" min="0"></td>
+                    <td><input type="number" [(ngModel)]="room.capacity" min="1" max="6"></td>
+                    <td>
+                        <select [(ngModel)]="room.sex">
+                            <option [ngValue]="null">Mixed</option>
+                            <option value="female">Female</option>
+                            <option value="male">Male</option>
+                        </select>
+                    </td>
+                    <td class="row-actions">
+                        <button mat-button color="primary" (click)="saveRoom(room)">Save</button>
+                        <button mat-button color="warn" (click)="deleteRoom(room)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p *ngIf="!isLoading && rooms.length === 0" class="status-message">
+            No rooms yet for this dorm -- generate some above.
+        </p>
+    </div>
+</div>
