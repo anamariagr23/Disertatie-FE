@@ -57,6 +57,33 @@ export interface MyAssignmentResponse {
   roommates: Roommate[];
 }
 
+export interface PendingChangesResponse {
+  run_id: string;
+  rejected_count: number;
+  new_arrival_count: number;
+  excluded_count: number;
+  confirmed_count: number;
+  unmet_bond_count: number;
+}
+
+export interface DiffEntry {
+  student_id: number;
+  name: string | null;
+  old_room: string | null;
+  new_room: string | null;
+  change: 'unchanged' | 'moved' | 'newly_placed' | 'waitlisted';
+}
+
+export interface ReoptimizeResponse {
+  old_run_id: string;
+  new_run_id: string;
+  rooms: number;
+  moved_count: number;
+  waitlisted_count: number;
+  metrics: GenderMetrics[];
+  diff: DiffEntry[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -94,6 +121,20 @@ export class MatchingService {
     return this.http.post(
       `${this.apiUrl}/matching/assignment/${assignmentId}/respond`,
       { action }
+    );
+  }
+
+  getPendingChanges(dormId: number | null): Observable<PendingChangesResponse> {
+    const params = dormId ? `?dorm_id=${dormId}` : '';
+    return this.http.get<PendingChangesResponse>(
+      `${this.apiUrl}/matching/pending-changes${params}`
+    );
+  }
+
+  reoptimize(dormId: number | null, method: string, seed: number): Observable<ReoptimizeResponse> {
+    return this.http.post<ReoptimizeResponse>(
+      `${this.apiUrl}/matching/reoptimize`,
+      { dorm_id: dormId, method, seed }
     );
   }
 }

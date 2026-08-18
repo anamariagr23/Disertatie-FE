@@ -25,7 +25,7 @@
 
     <div class="control-group">
       <label for="source">Data source:</label>
-      <select [(ngModel)]="selectedSource" id="source" [disabled]="isLoading">
+      <select [(ngModel)]="selectedSource" id="source" [disabled]="isLoading" (ngModelChange)="onSourceOrDormChange()">
         <option value="csv">Frozen CSV (thesis dataset)</option>
         <option value="db">Live database</option>
       </select>
@@ -33,7 +33,7 @@
 
     <div class="control-group" *ngIf="selectedSource === 'db'">
       <label for="dorm">Dorm (optional, all dorms if unset):</label>
-      <select [(ngModel)]="selectedDormId" id="dorm" [disabled]="isLoading">
+      <select [(ngModel)]="selectedDormId" id="dorm" [disabled]="isLoading" (ngModelChange)="onSourceOrDormChange()">
         <option [ngValue]="null">All dorms</option>
         <option *ngFor="let dorm of dorms" [ngValue]="dorm.id">{{ dorm.name }}</option>
       </select>
@@ -43,9 +43,11 @@
       (click)="runMatching()"
       [disabled]="isLoading"
       class="run-button"
+      [class.run-button-warn]="wouldWipeConfirmations"
     >
       <span *ngIf="isLoading">Running...</span>
-      <span *ngIf="!isLoading">Run Matching</span>
+      <span *ngIf="!isLoading && wouldWipeConfirmations">⚠ Run Matching</span>
+      <span *ngIf="!isLoading && !wouldWipeConfirmations">Run Matching</span>
     </button>
 
     <span *ngIf="lastSeed !== null" class="last-seed-info">
@@ -53,8 +55,73 @@
     </span>
   </div>
 
+  <p *ngIf="wouldWipeConfirmations && !isLoading" class="confirmed-warning-hint">
+    ⚠ This dorm has {{ pendingChanges!.confirmed_count }} confirmed room(s). "Run Matching" starts fresh and does not protect them -- use "Re-optimize" below instead if you just want to place rejections/new arrivals.
+  </p>
+
   <div *ngIf="errorMessage" class="error-banner">
     {{ errorMessage }}
+  </div>
+
+  <div *ngIf="selectedSource === 'db' && pendingChanges" class="pending-changes-panel">
+    <h2>Pending Changes <span class="run-id-label">(since run {{ pendingChanges.run_id }})</span></h2>
+    <div class="pending-changes-grid">
+      <div class="pending-stat">
+        <span class="pending-value">{{ pendingChanges.rejected_count }}</span>
+        <span class="pending-label">Rejected -- need a new room</span>
+      </div>
+      <div class="pending-stat">
+        <span class="pending-value">{{ pendingChanges.new_arrival_count }}</span>
+        <span class="pending-label">New arrivals -- never placed</span>
+      </div>
+      <div class="pending-stat">
+        <span class="pending-value">{{ pendingChanges.excluded_count }}</span>
+        <span class="pending-label">Still excluded (incomplete profile)</span>
+      </div>
+      <div class="pending-stat">
+        <span class="pending-value">{{ pendingChanges.unmet_bond_count }}</span>
+        <span class="pending-label">Bonds not yet honored -- need to be placed together</span>
+      </div>
+    </div>
+    <button
+      (click)="reoptimize()"
+      [disabled]="isReoptimizing || !hasPendingChanges"
+      class="reoptimize-button"
+    >
+      <span *ngIf="isReoptimizing">Re-optimizing...</span>
+      <span *ngIf="!isReoptimizing">Re-optimize</span>
+    </button>
+    <p *ngIf="!hasPendingChanges" class="pending-hint">
+      Nothing pending -- re-optimize is only meaningful once someone rejects a room, a new student registers, or a new bond isn't reflected in the current rooms yet.
+    </p>
+  </div>
+
+  <div *ngIf="reoptimizeSummary" class="reoptimize-summary-panel">
+    <h2>Re-optimize Result</h2>
+    <p>
+      New run <strong>{{ reoptimizeSummary.newRunId }}</strong> --
+      {{ reoptimizeSummary.moved }} student(s) moved or newly placed,
+      {{ reoptimizeSummary.waitlisted }} waitlisted (no bed available).
+    </p>
+    <div class="diff-tabs">
+      <button [class.active]="diffFilter === 'all'" (click)="diffFilter = 'all'">All</button>
+      <button [class.active]="diffFilter === 'moved'" (click)="diffFilter = 'moved'">Moved</button>
+      <button [class.active]="diffFilter === 'newly_placed'" (click)="diffFilter = 'newly_placed'">Newly placed</button>
+      <button [class.active]="diffFilter === 'waitlisted'" (click)="diffFilter = 'waitlisted'">Waitlisted</button>
+    </div>
+    <table class="diff-table">
+      <thead>
+        <tr><th>Student</th><th>Old room</th><th>New room</th><th>Change</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entry of filteredDiff" [ngClass]="'diff-row-' + entry.change">
+          <td>{{ entry.name || ('Student #' + entry.student_id) }}</td>
+          <td>{{ entry.old_room || '--' }}</td>
+          <td>{{ entry.new_room || '--' }}</td>
+          <td>{{ entry.change }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div *ngIf="metrics.length > 0" class="metrics-panel">

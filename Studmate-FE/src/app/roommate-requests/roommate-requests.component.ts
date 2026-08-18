@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RoommateService } from '../services/roommate.service';
-import { RoommateRequest } from 'src/shared/models/roommate.interface';
+import { RoommateRequest, SentRoommateRequest } from 'src/shared/models/roommate.interface';
 import { UserService } from '../services/user.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,6 +13,7 @@ import { BondService, BondGroupResponse } from '../services/bond.service';
 })
 export class RoommateRequestsComponent {
   roommateRequests: RoommateRequest[] = [];
+  sentRequests: SentRoommateRequest[] = [];
   targetId?: number | null;
   bondGroup: BondGroupResponse | null = null;
   errorMessage: string | null = null;
@@ -29,8 +30,39 @@ export class RoommateRequestsComponent {
     this.targetId = this.userService.getStudentId();
     if (this.targetId) {
       this.loadRoommateRequests(this.targetId);
+      this.loadSentRequests();
     }
     this.loadBondGroup();
+  }
+
+  private loadSentRequests(): void {
+    this.roommateRequestService.getSentRequests(this.targetId!).subscribe({
+      next: (response) => this.sentRequests = response.requests,
+      error: (error) => console.error('Error fetching sent requests:', error)
+    });
+  }
+
+  withdrawRequest(requestId: number): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '250px',
+      data: {
+        title: 'Withdraw Roommate Request',
+        message: 'Withdraw this pending roommate request?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        this.errorMessage = null;
+        this.roommateRequestService.withdrawRequest(this.targetId!, requestId).subscribe({
+          next: () => this.loadSentRequests(),
+          error: (error) => {
+            console.error('Error withdrawing request:', error);
+            this.errorMessage = error?.error?.error || 'Failed to withdraw the request.';
+          }
+        });
+      }
+    });
   }
 
   private loadBondGroup(): void {

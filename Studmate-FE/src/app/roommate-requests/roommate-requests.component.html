@@ -12,12 +12,13 @@
 
 <div *ngIf="errorMessage" class="error-banner">{{ errorMessage }}</div>
 
+<h2 class="section-title">Requests received</h2>
 <ul *ngIf="roommateRequests.length > 0; else noRequests" class="request-list">
     <li *ngFor="let request of roommateRequests" class="request-card"
         [ngClass]="{'grayed-out': request.requester_status_id === 2 && !request.accepted}">
         <div class="request-content">
             <div class="avatar-and-info">
-                <img [src]="request.requester_avatar" alt="Requester Avatar" class="avatar">
+                <img *ngIf="request.requester_avatar" [src]="request.requester_avatar" alt="Requester Avatar" class="avatar">
                 <div>
                     <div class="name">{{ request.requester_firstname }} {{ request.requester_lastname }}</div>
                     <div class="status">{{ request.requester_status_id === 1 ? 'Not Matched' : 'Matched' }}</div>
@@ -40,4 +41,27 @@
 </ul>
 <ng-template #noRequests>
     <p class="no-requests">No roommate requests found.</p>
+</ng-template>
+
+<h2 class="section-title">Requests you sent</h2>
+<ul *ngIf="sentRequests.length > 0; else noSentRequests" class="request-list">
+    <li *ngFor="let request of sentRequests" class="request-card">
+        <div class="request-content">
+            <div class="avatar-and-info">
+                <img *ngIf="request.target_avatar" [src]="request.target_avatar" alt="Target Avatar" class="avatar">
+                <div>
+                    <div class="name">{{ request.target_firstname }} {{ request.target_lastname }}</div>
+                </div>
+            </div>
+            <div class="actions">
+                <button *ngIf="request.accepted === null" mat-raised-button color="warn"
+                    (click)="withdrawRequest(request.request_id)">Withdraw</button>
+                <button *ngIf="request.accepted === true" mat-raised-button class="accepted-button">Accepted</button>
+                <button *ngIf="request.accepted === false" mat-raised-button class="declined-button">Declined</button>
+            </div>
+        </div>
+    </li>
+</ul>
+<ng-template #noSentRequests>
+    <p class="no-requests">You haven't sent any roommate requests.</p>
 </ng-template>

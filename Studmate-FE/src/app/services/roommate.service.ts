@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RoommateRequestDetails, RoommateRequestsResponse } from 'src/shared/models/roommate.interface';
+import { RoommateRequestDetails, RoommateRequestsResponse, SentRoommateRequestsResponse } from 'src/shared/models/roommate.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +36,13 @@ export class RoommateService {
 
   declineRequest(requestId: number): Observable<void> {
     return this.http.patch<void>(`https://127.0.0.1:5000/roommate_requests/${requestId}`, { accepted: false });
+  }
+
+  getSentRequests(requesterId: number): Observable<SentRoommateRequestsResponse> {
+    return this.http.get<SentRoommateRequestsResponse>(`https://127.0.0.1:5000/roommate_requests/sent/${requesterId}`);
+  }
+
+  withdrawRequest(requesterId: number, requestId: number): Observable<any> {
+    return this.http.delete(`https://127.0.0.1:5000/roommate_requests/sent/${requesterId}`, { body: { request_id: requestId } });
   }
 }

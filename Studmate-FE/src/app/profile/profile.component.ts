@@ -226,7 +226,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   sendRoommateRequest(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '250px'
+      width: '250px',
+      data: {
+        title: 'Send Roommate Request',
+        message: 'Send a roommate request to this student?'
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
