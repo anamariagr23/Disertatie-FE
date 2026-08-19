@@ -79,7 +79,13 @@
     text-align: center;
 }
 
-.student-avatar img {
+.student-avatar .default-avatar-icon {
+    font-size: 300px;
+    color: #bbb;
+}
+
+.student-avatar img,
+.student-avatar .default-avatar-icon {
     width: 300px;
     height: 300px;
     border-radius: 50%;
@@ -152,10 +158,14 @@
         flex: 100%;
     }
 
-    .student-avatar img {
+    .student-avatar img,
+    .student-avatar .default-avatar-icon {
         width: 200px;
         height: 200px;
+    }
 
+    .student-avatar .default-avatar-icon {
+        font-size: 200px;
     }
 
 

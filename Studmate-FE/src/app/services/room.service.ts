@@ -18,7 +18,7 @@ export interface BulkCreateRequest {
   floors: number;
   rooms_per_floor: number;
   capacity: number;
-  floor_gender: { [floor: string]: 'female' | 'male' | 'mixed' };
+  floor_gender: { [floor: string]: 'female' | 'male' };
 }
 
 @Injectable({

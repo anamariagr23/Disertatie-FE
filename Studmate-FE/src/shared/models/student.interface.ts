@@ -7,13 +7,18 @@ export interface Student {
     id: number;
     firstname: string;
     lastname: string;
-    status: string;
-    major: string;
-    year_of_study: number;
+    status?: string;
+    major: string | null;
+    id_major?: number | null;
+    id_sex?: number | null;
+    sex?: string | null;
+    dorm_id?: number | null;
+    dorm?: string | null;
+    year_of_study: number | null;
     description: string;
     avatar_link: string | null;
-    total_score: number;
-    categories: Category[];
+    total_score?: number | null;
+    categories?: Category[] | null;
 }
 
 export interface StudentMatchesResponse {

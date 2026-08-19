@@ -7,7 +7,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 
 interface FloorGenderChoice {
   floor: number;
-  gender: 'female' | 'male' | 'mixed';
+  gender: 'female' | 'male';
 }
 
 @Component({
@@ -55,8 +55,12 @@ export class DormStructureComponent implements OnInit {
     const existing = new Map(this.floorGenders.map(f => [f.floor, f.gender]));
     this.floorGenders = Array.from({ length: n }, (_, i) => ({
       floor: i + 1,
-      gender: existing.get(i + 1) ?? 'mixed'
+      gender: existing.get(i + 1) ?? 'female'
     }));
+  }
+
+  get mixedRoomCount(): number {
+    return this.rooms.filter(r => !r.sex).length;
   }
 
   loadRooms(): void {
@@ -103,7 +107,7 @@ export class DormStructureComponent implements OnInit {
     this.isGenerating = true;
     this.errorMessage = null;
 
-    const floorGender: { [floor: string]: 'female' | 'male' | 'mixed' } = {};
+    const floorGender: { [floor: string]: 'female' | 'male' } = {};
     this.floorGenders.forEach(f => floorGender[f.floor] = f.gender);
 
     this.roomService.bulkCreateRooms(this.selectedDormId, {

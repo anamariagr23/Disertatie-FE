@@ -95,6 +95,22 @@
 .roommate-item {
     padding: 8px 0;
     border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.roommate-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.default-avatar-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    color: #bbb;
 }
 
 .no-roommates {

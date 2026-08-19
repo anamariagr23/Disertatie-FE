@@ -59,6 +59,10 @@
     ⚠ This dorm has {{ pendingChanges!.confirmed_count }} confirmed room(s). "Run Matching" starts fresh and does not protect them -- use "Re-optimize" below instead if you just want to place rejections/new arrivals.
   </p>
 
+  <p *ngIf="lastRunWaitlistedCount && !isLoading" class="confirmed-warning-hint">
+    ⚠ {{ lastRunWaitlistedCount }} student(s) could not be placed in this run -- room capacity fell short of the population. They are not assigned to any room.
+  </p>
+
   <div *ngIf="errorMessage" class="error-banner">
     {{ errorMessage }}
   </div>
@@ -73,6 +77,10 @@
       <div class="pending-stat">
         <span class="pending-value">{{ pendingChanges.new_arrival_count }}</span>
         <span class="pending-label">New arrivals -- never placed</span>
+      </div>
+      <div class="pending-stat">
+        <span class="pending-value">{{ pendingChanges.still_waitlisted_count }}</span>
+        <span class="pending-label">Still waitlisted from a prior re-optimize</span>
       </div>
       <div class="pending-stat">
         <span class="pending-value">{{ pendingChanges.excluded_count }}</span>

@@ -1,5 +1,79 @@
 @import '../../shared/scss/shared-styles.scss';
 
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 16px;
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    margin: 20px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #666;
+    }
+
+    input, select {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        min-width: 140px;
+    }
+}
+
+.clear-filters-button {
+    padding: 8px 16px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    height: fit-content;
+}
+
+.results-count {
+    margin-left: auto;
+    color: #666;
+    font-size: 13px;
+    align-self: center;
+}
+
+.no-results {
+    width: 100%;
+    text-align: center;
+    color: #666;
+    padding: 40px 0;
+}
+
+.default-avatar-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 60px;
+    color: #bbb;
+}
+
+.tag-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.tag {
+    background: #e0e0e0;
+    color: #555;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
 .student-cards {
     display: flex;
     flex-wrap: wrap;

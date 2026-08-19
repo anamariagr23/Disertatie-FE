@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Student } from '../../shared/models/student.interface';
+import { Dorm, Major, Student } from '../../shared/models/student.interface';
 import { StudentService } from '../services/student.service';
 import { NavigationService } from '../services/navigation.service';
 import { UserService } from '../services/user.service';
@@ -12,7 +12,14 @@ import { UtilService } from 'src/shared/utils/util.service';
 })
 export class UsersPageComponent implements OnInit {
   students: Student[] = [];
+  dorms: Dorm[] = [];
+  majors: Major[] = [];
   isLoading: boolean = true;
+
+  searchText = '';
+  genderFilter: 'all' | 'female' | 'male' = 'all';
+  dormFilter: number | null = null;
+  majorFilter: number | null = null;
 
   constructor(
     private studentService: StudentService,
@@ -23,6 +30,14 @@ export class UsersPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getStudents();
+    this.studentService.getDorms().subscribe({
+      next: (response) => this.dorms = response.dorms,
+      error: (error) => console.error('Error fetching dorms', error)
+    });
+    this.studentService.getMajors().subscribe({
+      next: (response) => this.majors = response.majors,
+      error: (error) => console.error('Error fetching majors', error)
+    });
   }
 
   getStudents(): void {
@@ -34,6 +49,27 @@ export class UsersPageComponent implements OnInit {
       console.error('Error fetching students:', error);
       this.isLoading = false;
     });
+  }
+
+  get filteredStudents(): Student[] {
+    const search = this.searchText.trim().toLowerCase();
+    return this.students.filter(student => {
+      if (search) {
+        const fullName = `${student.firstname} ${student.lastname}`.toLowerCase();
+        if (!fullName.includes(search)) return false;
+      }
+      if (this.genderFilter !== 'all' && student.sex !== this.genderFilter) return false;
+      if (this.dormFilter !== null && student.dorm_id !== this.dormFilter) return false;
+      if (this.majorFilter !== null && student.id_major !== this.majorFilter) return false;
+      return true;
+    });
+  }
+
+  clearFilters(): void {
+    this.searchText = '';
+    this.genderFilter = 'all';
+    this.dormFilter = null;
+    this.majorFilter = null;
   }
 
   getOrdinalSuffix(year: number): string {

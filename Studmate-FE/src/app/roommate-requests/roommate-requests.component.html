@@ -19,6 +19,7 @@
         <div class="request-content">
             <div class="avatar-and-info">
                 <img *ngIf="request.requester_avatar" [src]="request.requester_avatar" alt="Requester Avatar" class="avatar">
+                <mat-icon *ngIf="!request.requester_avatar" class="default-avatar-icon">account_circle</mat-icon>
                 <div>
                     <div class="name">{{ request.requester_firstname }} {{ request.requester_lastname }}</div>
                     <div class="status">{{ request.requester_status_id === 1 ? 'Not Matched' : 'Matched' }}</div>
@@ -49,6 +50,7 @@
         <div class="request-content">
             <div class="avatar-and-info">
                 <img *ngIf="request.target_avatar" [src]="request.target_avatar" alt="Target Avatar" class="avatar">
+                <mat-icon *ngIf="!request.target_avatar" class="default-avatar-icon">account_circle</mat-icon>
                 <div>
                     <div class="name">{{ request.target_firstname }} {{ request.target_lastname }}</div>
                 </div>

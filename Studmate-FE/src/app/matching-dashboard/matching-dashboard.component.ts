@@ -21,6 +21,7 @@ export class MatchingDashboardComponent implements OnInit {
   rooms: RoomResult[] = [];
   metrics: GenderMetrics[] = [];
   lastSeed: number | null = null;
+  lastRunWaitlistedCount: number | null = null;
   genderFilter: 'all' | 'female' | 'male' = 'all';
 
   pendingChanges: PendingChangesResponse | null = null;
@@ -106,6 +107,7 @@ export class MatchingDashboardComponent implements OnInit {
     if (!this.pendingChanges) return false;
     return this.pendingChanges.rejected_count > 0
       || this.pendingChanges.new_arrival_count > 0
+      || this.pendingChanges.still_waitlisted_count > 0
       || this.pendingChanges.unmet_bond_count > 0;
   }
 
@@ -155,6 +157,7 @@ export class MatchingDashboardComponent implements OnInit {
       next: (response) => {
         this.lastSeed = response.seed;
         this.metrics = response.metrics;
+        this.lastRunWaitlistedCount = response.waitlisted_count > 0 ? response.waitlisted_count : null;
         this.reoptimizeDiff = null;
         this.reoptimizeSummary = null;
         this.loadResults();

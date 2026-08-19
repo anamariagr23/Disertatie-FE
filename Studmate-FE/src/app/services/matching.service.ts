@@ -30,6 +30,8 @@ export interface RunResponse {
   seed: number;
   rooms: number;
   metrics: GenderMetrics[];
+  waitlisted_count: number;
+  excluded_count?: number;
 }
 
 export interface ResultsResponse {
@@ -46,6 +48,7 @@ export interface Roommate {
   student_id: number;
   firstname: string;
   lastname: string;
+  avatar_link: string | null;
 }
 
 export interface MyAssignmentResponse {
@@ -61,6 +64,7 @@ export interface PendingChangesResponse {
   run_id: string;
   rejected_count: number;
   new_arrival_count: number;
+  still_waitlisted_count: number;
   excluded_count: number;
   confirmed_count: number;
   unmet_bond_count: number;

@@ -27,6 +27,8 @@
             <div class="section-title">Roommates</div>
             <ul *ngIf="a.roommates.length > 0; else noRoommates" class="roommate-list">
                 <li *ngFor="let r of a.roommates" class="roommate-item">
+                    <img *ngIf="r.avatar_link" [src]="r.avatar_link" referrerpolicy="no-referrer" class="roommate-avatar">
+                    <mat-icon *ngIf="!r.avatar_link" class="default-avatar-icon">account_circle</mat-icon>
                     {{ r.firstname }} {{ r.lastname }}
                 </li>
             </ul>

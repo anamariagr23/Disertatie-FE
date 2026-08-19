@@ -1,15 +1,57 @@
 <app-navbar></app-navbar>
+
+<div class="filter-bar" *ngIf="!isLoading">
+    <div class="filter-group">
+        <label for="search">Search by name</label>
+        <input type="text" id="search" [(ngModel)]="searchText" placeholder="e.g. Maria">
+    </div>
+
+    <div class="filter-group">
+        <label for="genderFilter">Gender</label>
+        <select id="genderFilter" [(ngModel)]="genderFilter">
+            <option value="all">All</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="dormFilter">Dorm</label>
+        <select id="dormFilter" [(ngModel)]="dormFilter">
+            <option [ngValue]="null">All dorms</option>
+            <option *ngFor="let dorm of dorms" [ngValue]="dorm.id">{{ dorm.name }}</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="majorFilter">Major</label>
+        <select id="majorFilter" [(ngModel)]="majorFilter">
+            <option [ngValue]="null">All majors</option>
+            <option *ngFor="let major of majors" [ngValue]="major.id">{{ major.name }}</option>
+        </select>
+    </div>
+
+    <button type="button" (click)="clearFilters()" class="clear-filters-button">Clear</button>
+
+    <span class="results-count">{{ filteredStudents.length }} of {{ students.length }} students</span>
+</div>
+
 <div class="student-cards" *ngIf="!isLoading; else loading">
-    <mat-card *ngFor="let student of students" class="student-card" (click)="goToProfile(student.id)">
+    <mat-card *ngFor="let student of filteredStudents" class="student-card" (click)="goToProfile(student.id)">
         <mat-card-header class=" wrapper">
-            <div mat-card-avatar class="student-avatar" *ngIf="student.avatar_link">
-                <img [src]="student.avatar_link" referrerpolicy="no-referrer">
+            <div mat-card-avatar class="student-avatar">
+                <img *ngIf="student.avatar_link" [src]="student.avatar_link" referrerpolicy="no-referrer">
+                <mat-icon *ngIf="!student.avatar_link" class="default-avatar-icon">account_circle</mat-icon>
             </div>
             <div class="student-info">
                 <mat-card-title class="title">{{ student.firstname }} {{ student.lastname }}</mat-card-title>
                 <mat-card-subtitle class="subtitle">
                     {{ student.major || 'Major not set' }}<ng-container *ngIf="student.year_of_study">, {{ getOrdinalSuffix(student.year_of_study) }} year</ng-container>
                 </mat-card-subtitle>
+                <div class="tag-row">
+                    <span *ngIf="student.sex" class="tag">{{ student.sex | titlecase }}</span>
+                    <span *ngIf="student.dorm" class="tag">{{ student.dorm }}</span>
+                </div>
             </div>
         </mat-card-header>
         <mat-card-content>
@@ -35,6 +77,7 @@
 
         </mat-card-content>
     </mat-card>
+    <p *ngIf="filteredStudents.length === 0" class="no-results">No students match these filters.</p>
 </div>
 <ng-template #loading>
     <div class="loading-container">
