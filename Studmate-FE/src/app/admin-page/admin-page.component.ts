@@ -81,6 +81,12 @@ import { Dorm } from 'src/shared/models/student.interface';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+export interface DormAdminSummary {
+  id: number;
+  email: string;
+  dorms: (string | null)[];
+}
+
 @Component({
   selector: 'app-admin-page',
   templateUrl: './admin-page.component.html',
@@ -93,6 +99,10 @@ export class AdminPageComponent {
   modalEmail: string = '';
   modalPassword: string = '';
 
+  dormAdmins: DormAdminSummary[] = [];
+  isResetting: number | null = null;
+  errorMessage: string | null = null;
+
   constructor(
     private studentService: StudentService,
     private http: HttpClient,
@@ -101,6 +111,7 @@ export class AdminPageComponent {
 
   ngOnInit(): void {
     this.getDorms();
+    this.loadDormAdmins();
   }
 
   getDorms(): void {
@@ -112,6 +123,13 @@ export class AdminPageComponent {
         console.error('Error fetching dorms', error);
       }
     );
+  }
+
+  loadDormAdmins(): void {
+    this.http.get<{ dorm_admins: DormAdminSummary[] }>('https://127.0.0.1:5000/dorm-admins').subscribe({
+      next: (response) => this.dormAdmins = response.dorm_admins,
+      error: (error) => console.error('Error fetching dorm admins', error)
+    });
   }
 
   generateRandomPassword(): string {
@@ -139,22 +157,44 @@ export class AdminPageComponent {
     const newUser = {
       email: this.adminEmail,
       password: password,
-      id_role: 2
+      id_role: 2,
+      dorm_id: this.selectedDormId
     };
 
-    console.log(`Email: ${this.adminEmail}, Password: ${password}`);
-
-    this.http.post('https://127.0.0.1:5000/users', newUser).subscribe(
-      response => {
-        console.log('Dorm admin created successfully:', response);
+    this.errorMessage = null;
+    this.http.post('https://127.0.0.1:5000/users', newUser).subscribe({
+      next: response => {
         this.modalEmail = this.adminEmail;
         this.modalPassword = password;
         this.openModal(this.modalEmail, this.modalPassword);
+        this.adminEmail = '';
+        this.selectedDormId = null;
+        this.loadDormAdmins();
       },
-      error => {
+      error: error => {
         console.error('Error creating dorm admin:', error);
+        this.errorMessage = error?.error?.error || 'Failed to create the dorm admin account.';
       }
-    );
+    });
+  }
+
+  resetPassword(admin: DormAdminSummary): void {
+    if (this.isResetting) return;
+    this.isResetting = admin.id;
+    this.errorMessage = null;
+    const newPassword = this.generateRandomPassword();
+
+    this.http.put(`https://127.0.0.1:5000/users/${admin.id}/password`, { password: newPassword }).subscribe({
+      next: () => {
+        this.isResetting = null;
+        this.openModal(admin.email, newPassword);
+      },
+      error: (error) => {
+        console.error('Error resetting password:', error);
+        this.errorMessage = error?.error?.error || 'Failed to reset the password.';
+        this.isResetting = null;
+      }
+    });
   }
 
   openModal(email: string, password: string): void {

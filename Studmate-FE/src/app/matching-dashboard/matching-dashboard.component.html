@@ -177,6 +177,10 @@
           [class.active]="genderFilter === 'male'"
           (click)="genderFilter = 'male'"
         >Male</button>
+        <button
+          [class.active]="genderFilter === 'mixed'"
+          (click)="genderFilter = 'mixed'"
+        >Mixed</button>
       </div>
     </div>
 
@@ -193,11 +197,13 @@
         <div class="score-bar">
           <div
             class="score-fill"
-            [style.width.%]="room.group_score * 100"
+            [style.width.%]="room.group_score !== null ? room.group_score * 100 : 100"
             [style.backgroundColor]="getScoreColor(room.group_score)"
           ></div>
         </div>
-        <span class="score-text">Score: {{ formatScore(room.group_score) }}%</span>
+        <span class="score-text">
+          {{ room.group_score !== null ? ('Score: ' + formatScore(room.group_score) + '%') : 'Admin-approved exception (no score)' }}
+        </span>
 
         <div class="members">
           <h4>Members:</h4>

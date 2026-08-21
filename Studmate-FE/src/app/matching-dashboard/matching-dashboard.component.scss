@@ -441,6 +441,10 @@
   &.score-poor {
     border-left: 4px solid #f44336;
   }
+
+  &.score-exception {
+    border-left: 4px dashed #9e9e9e;
+  }
 }
 
 .empty-state {

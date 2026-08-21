@@ -135,6 +135,12 @@
     color: #fff !important;
 }
 
+.request-error {
+    color: #c62828;
+    font-size: 13px;
+    margin: 6px 5px 0;
+}
+
 .roommate-button[disabled] {
     color: rgba(0, 0, 0, 0.38);
     background-color: rgba(0, 0, 0, 0.12);

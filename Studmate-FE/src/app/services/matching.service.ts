@@ -11,10 +11,10 @@ export interface MatchingRequest {
 
 export interface RoomResult {
   room: string;
-  gender: 'female' | 'male';
+  gender: 'female' | 'male' | 'mixed';
   members: number[];
   member_names?: { [studentId: string]: string };
-  group_score: number;
+  group_score: number | null;
 }
 
 export interface GenderMetrics {
@@ -55,7 +55,7 @@ export interface MyAssignmentResponse {
   assignment_id: number;
   status: 'proposed' | 'confirmed' | 'rejected';
   run_id: string;
-  group_score: number;
+  group_score: number | null;
   room: { id: number; label: string; capacity: number; dorm: string | null } | null;
   roommates: Roommate[];
 }

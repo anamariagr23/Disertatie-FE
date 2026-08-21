@@ -1,0 +1,34 @@
+<app-navbar></app-navbar>
+<div class="queue-container">
+    <div class="form-header">Cross-Gender Bond Requests</div>
+
+    <p class="intro">
+        These students have mutually accepted a roommate request across genders and declared
+        a relationship. Approving one creates a real bond -- it will only be placed if a
+        mixed-gender room is available in their dorm at the next matching run.
+    </p>
+
+    <div *ngIf="errorMessage" class="error-banner">{{ errorMessage }}</div>
+    <div *ngIf="isLoading" class="status-message">Loading...</div>
+
+    <div *ngIf="!isLoading && requests.length === 0" class="status-message">
+        No pending cross-gender bond requests.
+    </div>
+
+    <div class="request-card" *ngFor="let req of requests">
+        <div class="pair">
+            <span class="name">{{ req.requester_name }}</span>
+            <span class="dorm" *ngIf="req.requester_dorm">({{ req.requester_dorm }})</span>
+            <span class="arrow">&harr;</span>
+            <span class="name">{{ req.target_name }}</span>
+            <span class="dorm" *ngIf="req.target_dorm">({{ req.target_dorm }})</span>
+        </div>
+        <div class="relationship">Declared relationship: <strong>{{ req.relationship_type }}</strong></div>
+        <div class="actions">
+            <button mat-raised-button color="primary" [disabled]="processingId === req.request_id"
+                    (click)="review(req.request_id, true)">Approve</button>
+            <button mat-button color="warn" [disabled]="processingId === req.request_id"
+                    (click)="review(req.request_id, false)">Reject</button>
+        </div>
+    </div>
+</div>

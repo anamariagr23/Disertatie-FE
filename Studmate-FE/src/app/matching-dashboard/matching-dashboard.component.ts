@@ -22,7 +22,7 @@ export class MatchingDashboardComponent implements OnInit {
   metrics: GenderMetrics[] = [];
   lastSeed: number | null = null;
   lastRunWaitlistedCount: number | null = null;
-  genderFilter: 'all' | 'female' | 'male' = 'all';
+  genderFilter: 'all' | 'female' | 'male' | 'mixed' = 'all';
 
   pendingChanges: PendingChangesResponse | null = null;
   isReoptimizing = false;
@@ -192,21 +192,23 @@ export class MatchingDashboardComponent implements OnInit {
     return this.rooms.filter(r => r.gender === this.genderFilter);
   }
 
-  getScoreClass(score: number): string {
+  getScoreClass(score: number | null): string {
+    if (score === null) return 'score-exception';
     if (score >= 0.9) return 'score-excellent';
     if (score >= 0.8) return 'score-good';
     if (score >= 0.7) return 'score-fair';
     return 'score-poor';
   }
 
-  getScoreColor(score: number): string {
+  getScoreColor(score: number | null): string {
+    if (score === null) return '#9e9e9e';
     if (score >= 0.9) return '#4caf50';
     if (score >= 0.8) return '#ffc107';
     if (score >= 0.7) return '#ff9800';
     return '#f44336';
   }
 
-  formatScore(score: number): string {
-    return (score * 100).toFixed(1);
+  formatScore(score: number | null): string {
+    return score === null ? '—' : (score * 100).toFixed(1);
   }
 }

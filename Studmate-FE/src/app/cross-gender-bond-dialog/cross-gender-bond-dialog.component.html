@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Request a cross-gender room bond</h1>
+<div mat-dialog-content>
+    <p>
+        Studmate's matching engine normally only pairs students of the same sex. Bonding with
+        this student means the pair will only be placed together if an admin reviews and
+        approves it, and only if a mixed-gender room is available in your dorm.
+    </p>
+    <p>Please declare why you're requesting this:</p>
+
+    <div class="field-group">
+        <label for="relationshipType">Relationship</label>
+        <select id="relationshipType" [(ngModel)]="relationshipType">
+            <option value="" disabled selected>Select one</option>
+            <option value="Married couple">Married couple</option>
+            <option value="Siblings">Siblings</option>
+            <option value="Other">Other</option>
+        </select>
+    </div>
+
+    <div class="field-group" *ngIf="relationshipType === 'Other'">
+        <label for="otherText">Please describe</label>
+        <input id="otherText" type="text" [(ngModel)]="otherText" placeholder="e.g. domestic partners">
+    </div>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button (click)="onCancelClick()">Cancel</button>
+    <button mat-button color="primary" [disabled]="!isValid" (click)="onConfirmClick()">Send request</button>
+</div>

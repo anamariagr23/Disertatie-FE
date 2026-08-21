@@ -19,8 +19,11 @@
             <div class="status-badge" [ngClass]="a.status">{{ a.status }}</div>
         </div>
 
-        <div class="group-score">
+        <div class="group-score" *ngIf="a.group_score !== null">
             Compatibility score: <span class="score-value">{{ formatScore(a.group_score) }}%</span>
+        </div>
+        <div class="group-score" *ngIf="a.group_score === null">
+            This room was placed as an admin-approved exception, not an algorithmic match.
         </div>
 
         <div class="roommates-section">

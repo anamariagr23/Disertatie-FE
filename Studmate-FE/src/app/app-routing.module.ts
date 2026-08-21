@@ -15,6 +15,7 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
 import { DormAdminPageComponent } from './dorm-admin-page/dorm-admin-page.component';
 import { MatchingDashboardComponent } from './matching-dashboard/matching-dashboard.component';
 import { DormStructureComponent } from './dorm-structure/dorm-structure.component';
+import { CrossGenderBondQueueComponent } from './cross-gender-bond-queue/cross-gender-bond-queue.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'dorm-admin-page', component: DormAdminPageComponent },
   { path: 'matching-dashboard', component: MatchingDashboardComponent },
   { path: 'dorm-structure', component: DormStructureComponent },
+  { path: 'cross-gender-bond-queue', component: CrossGenderBondQueueComponent },
   {
     path: '',
     component: LayoutComponent,

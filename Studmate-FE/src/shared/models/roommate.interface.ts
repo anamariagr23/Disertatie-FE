@@ -7,6 +7,8 @@ export interface RoommateRequest {
     requester_avatar: string;
     viewed: boolean;
     accepted: boolean | null;
+    relationship_type?: string | null;
+    admin_approval?: boolean | null;
 }
 
 export interface RoommateRequestsResponse {
@@ -22,6 +24,25 @@ export interface SentRoommateRequest {
     target_avatar: string;
     target_status_id: number;
     accepted: boolean | null;
+    relationship_type?: string | null;
+    admin_approval?: boolean | null;
+}
+
+export interface CrossGenderPendingRequest {
+    request_id: number;
+    relationship_type: string;
+    requester_id: number;
+    requester_name: string;
+    requester_avatar: string | null;
+    requester_dorm: string | null;
+    target_id: number;
+    target_name: string;
+    target_avatar: string | null;
+    target_dorm: string | null;
+}
+
+export interface CrossGenderPendingResponse {
+    requests: CrossGenderPendingRequest[];
 }
 
 export interface SentRoommateRequestsResponse {

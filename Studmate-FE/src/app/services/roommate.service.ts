@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RoommateRequestDetails, RoommateRequestsResponse, SentRoommateRequestsResponse } from 'src/shared/models/roommate.interface';
+import { CrossGenderPendingResponse, RoommateRequestDetails, RoommateRequestsResponse, SentRoommateRequestsResponse } from 'src/shared/models/roommate.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +44,13 @@ export class RoommateService {
 
   withdrawRequest(requesterId: number, requestId: number): Observable<any> {
     return this.http.delete(`https://127.0.0.1:5000/roommate_requests/sent/${requesterId}`, { body: { request_id: requestId } });
+  }
+
+  getCrossGenderPending(): Observable<CrossGenderPendingResponse> {
+    return this.http.get<CrossGenderPendingResponse>(`https://127.0.0.1:5000/roommate_requests/cross-gender-pending`);
+  }
+
+  reviewCrossGenderRequest(requestId: number, approve: boolean): Observable<any> {
+    return this.http.post(`https://127.0.0.1:5000/roommate_requests/cross-gender-pending/${requestId}`, { approve });
   }
 }

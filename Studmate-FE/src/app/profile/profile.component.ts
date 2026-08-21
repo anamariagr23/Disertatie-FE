@@ -130,6 +130,7 @@ import { UserService } from '../services/user.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { CrossGenderBondDialogComponent } from '../cross-gender-bond-dialog/cross-gender-bond-dialog.component';
 
 @Component({
   selector: 'app-profile',
@@ -146,6 +147,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   requestMade: boolean = false;
   isLoading: boolean = true;
   errorMessage: string | null = null;
+  requestErrorMessage: string | null = null;
+  ownIdSex: number | null = null;
 
   constructor(
     private router: Router,
@@ -165,8 +168,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
       } else {
         this.loadStudentProfile(this.studentId);
         this.checkExistingRequest();
+        this.studentService.getStudentDetails().subscribe({
+          next: response => this.ownIdSex = response?.student?.id_sex ?? null,
+          error: () => { /* not critical -- just disables the cross-gender flow */ }
+        });
       }
     });
+  }
+
+  get isCrossGenderTarget(): boolean {
+    return this.ownIdSex !== null && this.ownIdSex !== undefined
+      && this.student?.id_sex !== null && this.student?.id_sex !== undefined
+      && this.ownIdSex !== this.student.id_sex;
   }
 
   ngOnDestroy(): void {
@@ -225,6 +238,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   sendRoommateRequest(): void {
+    if (this.isCrossGenderTarget) {
+      const dialogRef = this.dialog.open(CrossGenderBondDialogComponent, { width: '380px' });
+      dialogRef.afterClosed().subscribe((relationshipType: string | null) => {
+        if (relationshipType && this.loggedInUserId != null && this.studentId != null) {
+          this.doSendRoommateRequest(relationshipType);
+        }
+      });
+      return;
+    }
+
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '250px',
       data: {
@@ -235,15 +258,21 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && this.loggedInUserId != null && this.studentId != null) {
-        this.studentService.sendRoommateRequest(this.loggedInUserId, this.studentId).subscribe({
-          next: response => {
-            console.log('Roommate request sent:', response);
-            this.requestMade = true;
-          },
-          error: error => {
-            console.error('Failed to send roommate request:', error);
-          }
-        });
+        this.doSendRoommateRequest();
+      }
+    });
+  }
+
+  private doSendRoommateRequest(relationshipType?: string): void {
+    this.requestErrorMessage = null;
+    this.studentService.sendRoommateRequest(this.loggedInUserId!, this.studentId!, relationshipType).subscribe({
+      next: response => {
+        console.log('Roommate request sent:', response);
+        this.requestMade = true;
+      },
+      error: error => {
+        console.error('Failed to send roommate request:', error);
+        this.requestErrorMessage = error?.error?.error || 'Failed to send the roommate request.';
       }
     });
   }

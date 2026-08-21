@@ -56,10 +56,11 @@ export class StudentService {
     return this.http.get<any>(`https://127.0.0.1:5000/student/${studentId}`);
   }
 
-  sendRoommateRequest(requesterId: number, targetId: number): Observable<any> {
+  sendRoommateRequest(requesterId: number, targetId: number, relationshipType?: string): Observable<any> {
     return this.http.post('https://127.0.0.1:5000/roommate_requests', {
       requester_id: requesterId,
-      target_id: targetId
+      target_id: targetId,
+      relationship_type: relationshipType
     });
   }
 

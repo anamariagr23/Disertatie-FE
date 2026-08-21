@@ -30,8 +30,9 @@
                 </div>
                 <button mat-stroked-button class="roommate-button" (click)="sendRoommateRequest()"
                     [disabled]="requestMade">
-                    <mat-icon>people</mat-icon>Request to Be Roommates
+                    <mat-icon>people</mat-icon>{{ isCrossGenderTarget ? 'Request Cross-Gender Bond' : 'Request to Be Roommates' }}
                 </button>
+                <p *ngIf="requestErrorMessage" class="request-error">{{ requestErrorMessage }}</p>
             </div>
             <div *ngIf="loggedInUserId === studentId">
                 <button mat-stroked-button class="roommate-button" (click)="updateAnswers()">

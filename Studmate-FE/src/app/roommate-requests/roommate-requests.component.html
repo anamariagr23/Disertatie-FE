@@ -43,7 +43,15 @@
                         (click)="declineRequest(request.request_id)">Decline</button>
                 </ng-container>
 
-                <button *ngIf="request.accepted === true" mat-raised-button class="accepted-button">Accepted</button>
+                <ng-container *ngIf="request.accepted === true">
+                    <button *ngIf="!request.relationship_type" mat-raised-button class="accepted-button">Accepted</button>
+                    <button *ngIf="request.relationship_type && request.admin_approval === null"
+                        mat-raised-button class="pending-review-button" disabled>Pending admin review</button>
+                    <button *ngIf="request.relationship_type && request.admin_approval === true"
+                        mat-raised-button class="accepted-button">Approved &amp; bonded</button>
+                    <button *ngIf="request.relationship_type && request.admin_approval === false"
+                        mat-raised-button class="declined-button">Rejected by admin</button>
+                </ng-container>
                 <button *ngIf="request.accepted === false" mat-raised-button class="declined-button">Declined</button>
             </div>
         </div>
@@ -67,7 +75,15 @@
             <div class="actions">
                 <button *ngIf="request.accepted === null" mat-raised-button color="warn"
                     (click)="withdrawRequest(request.request_id)">Withdraw</button>
-                <button *ngIf="request.accepted === true" mat-raised-button class="accepted-button">Accepted</button>
+                <ng-container *ngIf="request.accepted === true">
+                    <button *ngIf="!request.relationship_type" mat-raised-button class="accepted-button">Accepted</button>
+                    <button *ngIf="request.relationship_type && request.admin_approval === null"
+                        mat-raised-button class="pending-review-button" disabled>Pending admin review</button>
+                    <button *ngIf="request.relationship_type && request.admin_approval === true"
+                        mat-raised-button class="accepted-button">Approved &amp; bonded</button>
+                    <button *ngIf="request.relationship_type && request.admin_approval === false"
+                        mat-raised-button class="declined-button">Rejected by admin</button>
+                </ng-container>
                 <button *ngIf="request.accepted === false" mat-raised-button class="declined-button">Declined</button>
             </div>
         </div>

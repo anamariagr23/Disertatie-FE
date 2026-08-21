@@ -66,6 +66,58 @@ form {
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
+.error-banner {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 10px 16px;
+    border-radius: 4px;
+    margin: 20px;
+}
+
+.admins-table {
+    width: 100%;
+    border-collapse: collapse;
+    padding: 0 20px 20px;
+}
+
+.admins-table th,
+.admins-table td {
+    text-align: left;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.admins-table th {
+    font-size: 13px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+.reset-button {
+    background-color: #fff;
+    color: #3f51b5;
+    border: 1px solid #3f51b5;
+    border-radius: 4px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.reset-button:hover {
+    background-color: #e8eaf6;
+}
+
+.reset-button:disabled {
+    color: #999;
+    border-color: #ccc;
+    cursor: default;
+}
+
+.no-admins {
+    color: #666;
+    padding: 0 20px 20px;
+}
+
 @media (max-width: 768px) {
     .form-container {
         padding: 15px;

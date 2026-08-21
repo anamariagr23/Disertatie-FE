@@ -45,6 +45,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSliderModule } from '@angular/material/slider';
 import { MyRoomComponent } from './my-room/my-room.component';
 import { DormStructureComponent } from './dorm-structure/dorm-structure.component';
+import { CrossGenderBondDialogComponent } from './cross-gender-bond-dialog/cross-gender-bond-dialog.component';
+import { CrossGenderBondQueueComponent } from './cross-gender-bond-queue/cross-gender-bond-queue.component';
 
 const config: SocketIoConfig = { url: 'wss://127.0.0.1:5000', options: {} };
 
@@ -71,6 +73,8 @@ const config: SocketIoConfig = { url: 'wss://127.0.0.1:5000', options: {} };
     MatchingDashboardComponent,
     MyRoomComponent,
     DormStructureComponent,
+    CrossGenderBondDialogComponent,
+    CrossGenderBondQueueComponent,
 
   ],
   imports: [
