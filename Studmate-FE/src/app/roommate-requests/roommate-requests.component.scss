@@ -74,6 +74,22 @@
     color: #333;
 }
 
+.deadline-banner {
+    max-width: 800px;
+    margin: 0 auto 20px;
+    background-color: #fff3e0;
+    color: #e65100;
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.deadline-banner.deadline-passed {
+    background-color: #eeeeee;
+    color: #616161;
+}
+
 .bond-group-panel {
     max-width: 800px;
     margin: 0 auto 20px;

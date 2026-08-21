@@ -41,6 +41,8 @@ export interface MajorResponse {
 export interface Dorm {
     id: number;
     name: string;
+    gender_policy?: string | null;
+    registration_deadline?: string | null;
 }
 export interface DormResponse {
     dorms: Dorm[];

@@ -12,6 +12,22 @@
         </div>
 
         <ng-container *ngIf="selectedDormId">
+            <div class="control-row deadline-row">
+                <div class="control-group">
+                    <label for="deadline">Registration / bonding deadline:</label>
+                    <input type="date" id="deadline" [(ngModel)]="deadlineInput">
+                </div>
+                <button mat-stroked-button color="primary" [disabled]="isSavingDeadline" (click)="saveDeadline()">
+                    {{ isSavingDeadline ? 'Saving...' : 'Save deadline' }}
+                </button>
+                <button mat-button *ngIf="selectedDorm?.registration_deadline" [disabled]="isSavingDeadline" (click)="clearDeadline()">
+                    Clear
+                </button>
+                <span class="deadline-hint" *ngIf="!selectedDorm?.registration_deadline">
+                    No deadline set -- students see no countdown for this dorm.
+                </span>
+            </div>
+
             <div class="control-row">
                 <div class="control-group">
                     <label for="floors">Floors:</label>

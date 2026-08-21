@@ -5,6 +5,7 @@ import { UserService } from '../services/user.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { BondService, BondGroupResponse } from '../services/bond.service';
+import { StudentService } from '../services/student.service';
 
 @Component({
   selector: 'app-roommate-requests',
@@ -18,10 +19,14 @@ export class RoommateRequestsComponent {
   bondGroup: BondGroupResponse | null = null;
   errorMessage: string | null = null;
 
+  daysRemaining: number | null = null;
+  deadlinePassed = false;
+
   constructor(
     private roommateRequestService: RoommateService,
     private userService: UserService,
     private bondService: BondService,
+    private studentService: StudentService,
     public dialog: MatDialog
   ) { }
 
@@ -33,6 +38,28 @@ export class RoommateRequestsComponent {
       this.loadSentRequests();
     }
     this.loadBondGroup();
+    this.loadDeadline();
+  }
+
+  private loadDeadline(): void {
+    this.studentService.getStudentDetails().subscribe({
+      next: (response) => {
+        const dormId = response?.student?.dorm_id;
+        if (!dormId) return;
+        this.studentService.getDorms().subscribe({
+          next: (dormsResponse) => {
+            const dorm = dormsResponse.dorms.find(d => d.id === dormId);
+            if (!dorm?.registration_deadline) return;
+            const deadline = new Date(dorm.registration_deadline).getTime();
+            const now = Date.now();
+            this.deadlinePassed = now > deadline;
+            this.daysRemaining = Math.ceil((deadline - now) / (1000 * 60 * 60 * 24));
+          },
+          error: (error) => console.error('Error fetching dorms', error)
+        });
+      },
+      error: (error) => console.error('Error fetching student details', error)
+    });
   }
 
   private loadSentRequests(): void {

@@ -30,6 +30,12 @@ export class StudentService {
     return this.http.get<DormResponse>(`https://127.0.0.1:5000/dorms`);
   }
 
+  updateDormDeadline(dormId: number, registrationDeadline: string | null): Observable<any> {
+    return this.http.put(`https://127.0.0.1:5000/dorms/${dormId}`, {
+      registration_deadline: registrationDeadline
+    });
+  }
+
   getSexes(): Observable<SexResponse> {
     return this.http.get<SexResponse>(`https://127.0.0.1:5000/sexes`);
   }

@@ -48,6 +48,18 @@
     gap: 20px;
 }
 
+.deadline-row {
+    align-items: flex-end;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.deadline-hint {
+    font-size: 13px;
+    color: #888;
+    padding-bottom: 10px;
+}
+
 .control-row .control-group {
     flex: 1;
 }

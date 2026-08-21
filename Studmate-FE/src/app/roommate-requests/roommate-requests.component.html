@@ -1,5 +1,14 @@
 <app-navbar></app-navbar>
 
+<div *ngIf="daysRemaining !== null" class="deadline-banner" [class.deadline-passed]="deadlinePassed">
+    <ng-container *ngIf="!deadlinePassed">
+        ⏳ Bonding closes in {{ daysRemaining }} day{{ daysRemaining === 1 ? '' : 's' }} -- send or accept requests before then.
+    </ng-container>
+    <ng-container *ngIf="deadlinePassed">
+        ⏳ The bonding period for your dorm has closed.
+    </ng-container>
+</div>
+
 <div *ngIf="bondGroup && bondGroup.group_size > 1" class="bond-group-panel">
     <p>
         You + {{ bondGroup.members[0].firstname }} {{ bondGroup.members[0].lastname }}<ng-container *ngFor="let m of bondGroup.members.slice(1)"> + {{ m.firstname }} {{ m.lastname }}</ng-container>

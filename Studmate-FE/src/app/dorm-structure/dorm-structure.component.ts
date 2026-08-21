@@ -29,6 +29,9 @@ export class DormStructureComponent implements OnInit {
   isGenerating = false;
   errorMessage: string | null = null;
 
+  deadlineInput = '';           // bound to <input type="date">, yyyy-MM-dd
+  isSavingDeadline = false;
+
   constructor(
     private studentService: StudentService,
     private roomService: RoomService,
@@ -45,9 +48,39 @@ export class DormStructureComponent implements OnInit {
 
   onDormChange(): void {
     this.rooms = [];
+    this.deadlineInput = this.selectedDorm?.registration_deadline
+      ? this.selectedDorm.registration_deadline.slice(0, 10)
+      : '';
     if (this.selectedDormId) {
       this.loadRooms();
     }
+  }
+
+  get selectedDorm(): Dorm | null {
+    return this.dorms.find(d => d.id === this.selectedDormId) ?? null;
+  }
+
+  saveDeadline(): void {
+    if (!this.selectedDormId || this.isSavingDeadline) return;
+    this.isSavingDeadline = true;
+    const iso = this.deadlineInput ? `${this.deadlineInput}T23:59:00` : null;
+    this.studentService.updateDormDeadline(this.selectedDormId, iso).subscribe({
+      next: () => {
+        const dorm = this.dorms.find(d => d.id === this.selectedDormId);
+        if (dorm) dorm.registration_deadline = iso;
+        this.isSavingDeadline = false;
+      },
+      error: (error) => {
+        console.error('Error saving registration deadline', error);
+        this.errorMessage = 'Failed to save the registration deadline.';
+        this.isSavingDeadline = false;
+      }
+    });
+  }
+
+  clearDeadline(): void {
+    this.deadlineInput = '';
+    this.saveDeadline();
   }
 
   rebuildFloorGenders(): void {
